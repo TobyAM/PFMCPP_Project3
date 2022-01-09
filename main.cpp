@@ -36,51 +36,51 @@ Sub Object 1: Steering Wheel
     Name 4 things you'll find on the:    Steering Wheel
         1) paddle shifters
         2) 'cruise control' controls
-        3) 
-        4) 
+        3) horn button
+        4) volume controls
     Name 2 things you can do with the:   Steering Wheel
         1) adjust cruise control settings.
-        2)
+        2) change car direction
         
 Sub Object 2: Instrument Cluster
     Name 4 things you'll find on the:   Instrument Cluster
-        1)
-        2)
-        3)
-        4)
+        1) speedometer
+        2) tachometer
+        3) gear indicator
+        4) signal indicator
     Name 3 things you can do with the:   Instrument Cluster
-        1)
-        2)
-        3)
+        1) get temperature
+        2) get milage
+        3) get remaining fuel
     
 Sub Object 3: Environment Controls
     Name 3 things you'll find on the:    Environment Controls
-        1)
-        2)
-        3)
+        1) zone selector
+        2) air-conditioning switch
+        3) temperature control
     Name 3 things you can do with the:   Environment Controls
-        1)
-        2)
-        3)
+        1) control fan speed
+        2) control air recirculation
+        3) control defrosters
 
 Sub Object 4: Infotainment System
     Name 3 things you'll find on the:    Infotainment System
-        1)
-        2)
-        3)
+        1) dangerously distracting videos
+        2) maps
+        3) music information
     Name 3 things you can do with the:   Infotainment System
-        1)
-        2)
-        3)
+        1) change system settings
+        2) navigate with GPS
+        3) change audio DSP
 
 Sub Object 5: Seat 
     Name 3 things you'll find on the:    Seat
-        1)
-        2)
-        3)
+        1) position controls
+        2) heater controls
+        3) angle controls
     Name 2 things you can do with the:   Seat
-        1)
-        2)
+        1) carry passengers
+        2) heat passengers
 */
 /*
  MAKE SURE YOU ARE NOT ON THE MASTER BRANCH
