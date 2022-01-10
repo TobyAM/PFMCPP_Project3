@@ -65,30 +65,13 @@ Part1 will be broken up into 5 separate steps
 */
 
 /*
-Thing 10)
-5 properties:
-    1)
-    2)
-    3)
-    4)
-    5)
-3 things it can do:
-    1)
-    2)
-    3)
- */
-
-
-
-
-/*
 Thing 1) Coffee shop
 5 properties:
-    1) the number of baristas
-    2) the number of coffee machines
-    3) the number of registers
-    4) the number of tables
-    5) the types of coffee
+    1) the number of baristas (int)
+    2) the number of coffee machines (int)
+    3) the number of registers (int)
+    4) the number of tables (int)
+    5) the types of coffee (std::string)
 3 things it can do:
     1) make a coffee
     2) grind coffee beans
@@ -98,11 +81,11 @@ Thing 1) Coffee shop
 /*
 Thing 2) Invoice application
 5 properties:
-    1) the number of invoices
-    2) the number of clients
-    3) the outstanding balance
-    4) the number of templates
-    5) the types of jobs
+    1) the number of invoices (int)
+    2) the number of clients (int)
+    3) the outstanding balance (float)
+    4) the number of templates (int)
+    5) the types of jobs (std::string)
 3 things it can do:
     1) create an invoice
     2) check if an invoice is late
@@ -112,11 +95,11 @@ Thing 2) Invoice application
 /*
 Thing 3) Scooter rental
 5 properties:
-    1) the battery level
-    2) the rental time
-    3) the distance traveled
-    4) the GPS coordinates
-    5) the rental balance
+    1) the battery level (int)
+    2) the rental time (float)
+    3) the distance traveled (int)
+    4) the GPS coordinates (float)
+    5) the rental balance (float)
 3 things it can do:
     1) accelerate
     2) brake
@@ -126,18 +109,30 @@ Thing 3) Scooter rental
 /*
 Thing 4)  Paintball gun
 5 properties:
-    1) CO2 pressure
-    2) paintballs in the hopper
-    3) paintballs in the chamber
-    4) volume of lubrication
-    5) valve aperature
+    1) CO2 pressure (int)
+    2) paintballs in the hopper (int)
+    3) paintballs in the chamber (int)
+    4) volume of lubrication (float)
+    5) valve aperature (float)
 3 things it can do:
     1) shoot a paintball
     2) load a paintball into chamber
     3) lock trigger safety
  */
 
-
+/*
+Thing 10) Drone
+5 properties: 
+    1) Propellers
+    2) Battery
+    3) GPS
+    4) CPU
+    5) Presets
+3 things it can do:
+    1) Lift off
+    2) Maneuver 
+    3) Land
+ */
 
 /*
  MAKE SURE YOU ARE NOT ON THE MASTER BRANCH
