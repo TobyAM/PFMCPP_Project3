@@ -1,4 +1,4 @@
-/*
+ /*
 Project 3 - Part 1b / 5
 Video:  Chapter 2 Part 5
 User-Defined Types
@@ -57,59 +57,59 @@ Thing: Car Wash
  */
 
 /*
-Thing 1)
+Thing 1) Coffee shop
 5 properties:
-    1)
-    2)
-    3)
-    4)
-    5)
+    1) the number of baristas
+    2) the number of coffee machines
+    3) the number of registers
+    4) the number of tables
+    5) the types of coffee
 3 things it can do:
-    1)
-    2)
-    3)
+    1) make a coffee
+    2) grind coffee beans
+    3) modify customer names
  */
 
 /*
-Thing 2)
+Thing 2) Invoice application
 5 properties:
-    1)
-    2)
-    3)
-    4)
-    5)
+    1) the number of invoices
+    2) the number of clients
+    3) the outstanding balance
+    4) the number of templates
+    5) the types of jobs
 3 things it can do:
-    1)
-    2)
-    3)
+    1) create an invoice
+    2) check if an invoice is late
+    3) calculate outstanding balance
  */
 
 /*
-Thing 3)
+Thing 3) Scooter rental
 5 properties:
-    1)
-    2)
-    3)
-    4)
-    5)
+    1) the battery level
+    2) the rental time
+    3) the distance traveled
+    4) the GPS coordinates
+    5) the rental balance
 3 things it can do:
-    1)
-    2)
-    3)
+    1) accelerate
+    2) brake
+    3) lock
  */
 
 /*
-Thing 4)
+Thing 4)  Paintball gun
 5 properties:
-    1)
-    2)
-    3)
-    4)
-    5)
+    1) CO2 pressure
+    2) paintballs in the hopper
+    3) paintballs in the chamber
+    4) volume of lubrication
+    5) valve aperature
 3 things it can do:
-    1)
-    2)
-    3)
+    1) shoot a paintball
+    2) load a paintball into chamber
+    3) lock trigger safety
  */
 
 
