@@ -81,78 +81,6 @@ Part1 will be broken up into 5 separate steps
 */
 
 /*
-Thing 5)
-5 properties:
-    1)
-    2)
-    3)
-    4)
-    5)
-3 things it can do:
-    1)
-    2)
-    3)
- */
-
-/*
-Thing 6)
-5 properties:
-    1)
-    2)
-    3)
-    4)
-    5)
-3 things it can do:
-    1)
-    2)
-    3)
- */
-
-/*
-Thing 7)
-5 properties:
-    1)
-    2)
-    3)
-    4)
-    5)
-3 things it can do:
-    1)
-    2)
-    3)
- */
-
-/*
-Thing 8)
-5 properties:
-    1)
-    2)
-    3)
-    4)
-    5)
-3 things it can do:
-    1)
-    2)
-    3)
- */
-
-/*
-Thing 9)
-5 properties:
-    1)
-    2)
-    3)
-    4)
-    5)
-3 things it can do:
-    1)
-    2)
-    3)
- */
-
-
-
-/*
 Thing 1) Coffee shop
 5 properties:
     1) the number of baristas (int)
@@ -206,6 +134,76 @@ Thing 4)  Paintball gun
     1) shoot a paintball
     2) load a paintball into chamber
     3) lock trigger safety
+ */
+
+/*
+Thing 5) Propeller
+5 properties:
+    1) motor voltage (float)
+    2) motor speed in rpm (float)
+    3) propeller width in m (float)
+    4) motor weight in grams (float)
+    5) motor efficiency in percent (int)
+3 things it can do:
+    1) increase speed
+    2) maintain speed
+    3) decrease speed
+ */
+
+/*
+Thing 6) Battery
+5 properties:
+    1) voltage (float)
+    2) number of cells (int)
+    3) capacity in mAh (int)
+    4) c-rating (int)
+    5) battery type (std::string)
+3 things it can do:
+    1) charge
+    2) discharge
+    3) disconnect
+ */
+
+/*
+Thing 7) GPS
+5 properties:
+    1) latitude (float)
+    2) longitude (float)
+    3) altitude (float)
+    4) time (float)
+    5) signal strength in percentage (int)
+3 things it can do:
+    1) get location
+    2) get time
+    3) get signal strength
+ */
+
+/*
+Thing 8) CPU
+5 properties:
+    1) speed in MHz (float)
+    2) number of cores (int)
+    3) memory in GB (int)
+    4) model (std::string)
+    5) mirocontroller (std::string)
+3 things it can do:
+    1) get drone speed
+    2) balance drone
+    3) execute presets
+ */
+
+/*
+Thing 9) Presets
+5 properties:
+    1) preset name (std::string)
+    2) preset type (std::string)
+    3) preset number (int)
+    4) preset size in MB (int)
+    5) preset author (std::string)
+3 things it can do:
+    1) save a preset
+    2) execute a preset
+    3) rename a preset
  */
 
 /*
