@@ -223,8 +223,8 @@ struct CoffeeShop
     struct Customer
     {
         std::string name = "Customer 1";
-        float customerPhoneNumber = 15555555555.0f; //replit suggested 'long' be used, but that's not in the lesson
-        float customerID = 1.0f; // I'll also float this then
+        int customerPhoneNumber = 15555555555;
+        int customerID = 1;
         bool rewardsMember = false;
         float rewardsBalance = 0.0f;
 
@@ -281,7 +281,7 @@ struct InvoiceManager
         bool overdue = false;
 
         void download(std::string format = "pdf");
-        void paid();
+        void markAsPaid();
         void duplicate();
     };
 
