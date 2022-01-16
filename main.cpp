@@ -214,24 +214,24 @@ struct CoffeeShop
     // 5) the types of coffee (std::string)
     std::string brewMethod = "pour over";
 
-        struct Coffee
-        {
-            std::string type = "columbian";
-            std::string roast = "dark";
-        };
+    struct Coffee
+    {
+        std::string type = "columbian";
+        std::string roast = "dark";
+    };
 
-        struct Customer
-        {
-            std::string name = "Customer 1";
-            float customerPhoneNumber = 15555555555.0f; //replit suggested 'long' be used, but that's not in the lesson
-            float customerID = 1.0f; // I'll also float this then
-            bool rewardsMember = false;
-            float rewardsBalance = 0.0f;
+    struct Customer
+    {
+        std::string name = "Customer 1";
+        float customerPhoneNumber = 15555555555.0f; //replit suggested 'long' be used, but that's not in the lesson
+        float customerID = 1.0f; // I'll also float this then
+        bool rewardsMember = false;
+        float rewardsBalance = 0.0f;
 
-            bool useRewardsPoints(float rewardsPoints); //returns if there wasn't enough balance
-            void newMemberPromotion(float incentiveAmount);
-            bool contactCustomer(std::string msg = "Your order is ready.");
-        };
+        bool useRewardsPoints(float rewardsPoints); //returns if there wasn't enough balance
+        void newMemberPromotion(float incentiveAmount);
+        bool contactCustomer(std::string msg = "Your order is ready.");
+    };
 
     // 1) make a coffee
     bool brewCoffee(Coffee coffeeType, int size, std::string brewType, bool cream, bool sugar, std::string customerName); //returns "coffee ready" - I think you'd do this for 'urgent' asynchronous tasks like this?
@@ -270,23 +270,25 @@ struct InvoiceManager
     // 5) the type of job (std::string)
     std::string workType = "mastering";
 
-        struct Invoice{
-            std::string clientName;
-            int invoiceNumber;
-            std::string workType = "post";
-            float workTime = 0.0f;
-            float totalBalance = 0.0f;
-            float dueDate;
-            bool overdue = false;
+    struct Invoice
+    {
+        std::string clientName;
+        int invoiceNumber;
+        std::string workType = "post";
+        float workTime = 0.0f;
+        float totalBalance = 0.0f;
+        float dueDate;
+        bool overdue = false;
 
-            void download(std::string format = "pdf");
-            void paid();
-            void duplicate();
-        };
+        void download(std::string format = "pdf");
+        void paid();
+        void duplicate();
+    };
 
-        struct Client{  //to do. declaring just to clear errors
+    struct Client
+    {  //to do. declaring just to clear errors
 
-        };
+    };
 
     // 1) create an invoice - returns an Invoice struct above
     Invoice createInvoice(std::string clientName, int invoiceNumber, float dueDate, std::string workType = "post", float workTime = 0.0f);
