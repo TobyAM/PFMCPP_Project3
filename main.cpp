@@ -201,6 +201,48 @@ Thing 1) Coffee shop
     3) modify customer names
  */
 
+struct CoffeeShop
+{
+    // 1) the number of baristas (int)
+    int numBaristas = 2;
+    // 2) the number of coffee machines (int)
+    int numCoffeeMachines = 4;
+    // 3) the number of registers (int)
+    int numRegisters = 2;
+    // 4) the number of tables (int)
+    int numTables = 12;
+    // 5) the types of coffee (std::string)
+    std::string brewMethod = "pour over";
+
+        struct Coffee
+        {
+            std::string type = "columbian";
+            std::string roast = "dark";
+        };
+
+        struct Customer
+        {
+            std::string name = "Customer 1";
+            float customerPhoneNumber = 15555555555.0f; //replit suggested 'long' be used, but that's not in the lesson
+            float customerID = 1.0f; // I'll also float this then
+            bool rewardsMember = false;
+            float rewardsBalance = 0.0f;
+
+            bool useRewardsPoints(float rewardsPoints); //returns if there wasn't enough balance
+            void newMemberPromotion(float incentiveAmount);
+            bool contactCustomer(std::string msg = "Your order is ready.");
+        };
+
+    // 1) make a coffee
+    bool brewCoffee(Coffee coffeeType, int size, std::string brewType, bool cream, bool sugar, std::string customerName); //returns "coffee ready" - I think you'd do this for 'urgent' asynchronous tasks like this?
+    // 2) grind coffee beans
+    bool grindCoffee(Coffee coffeeType, int courseness, Customer customerA);
+    // 3) modify customer names
+    void renameCustomer(Customer customerA);
+
+    Coffee standardBrew;
+};
+
 /*
 Thing 2) Invoice application
 5 properties:
@@ -214,6 +256,45 @@ Thing 2) Invoice application
     2) check if an invoice is late
     3) calculate outstanding balance
  */
+
+struct InvoiceManager
+{
+    // 1) the number of invoices (int)
+    int numInvoices = 234;
+    // 2) the number of clients (int)
+    int numClients = 32;
+    // 3) the outstanding balance (float)
+    float outBalance = 10345.24f;
+    // 4) the number of templates (int)
+    int numTemplates = 4;
+    // 5) the type of job (std::string)
+    std::string workType = "mastering";
+
+        struct Invoice{
+            std::string clientName;
+            int invoiceNumber;
+            std::string workType = "post";
+            float workTime = 0.0f;
+            float totalBalance = 0.0f;
+            float dueDate;
+            bool overdue = false;
+
+            void download(std::string format = "pdf");
+            void paid();
+            void duplicate();
+        };
+
+        struct Client{  //to do. declaring just to clear errors
+
+        };
+
+    // 1) create an invoice - returns an Invoice struct above
+    Invoice createInvoice(std::string clientName, int invoiceNumber, float dueDate, std::string workType = "post", float workTime = 0.0f);
+    // 2) check if an invoice is late
+    bool checkOverdue(Invoice invoice);
+    // 3) calculate outstanding balance - inputs a Client and optional invoice, returns specific balance
+    float checkBalance(Client client, Invoice invoice);
+};
 
 /*
 Thing 3) Scooter rental
@@ -229,6 +310,26 @@ Thing 3) Scooter rental
     3) lock
  */
 
+struct ScooterRental
+{
+    // 2) the rental time (float)
+    float rentalTime = 0.0f;
+    // 3) the distance traveled ft (int)
+    int distanceTraveled = 0;
+    // 4) the GPS coordinates (float)
+    float latitude = 34.052235f;
+    float longitude = -118.243683f;
+    // 5) the rental balance (float)
+    float balance = 1.0f;
+
+    // 1) accelerate
+    void accelerate(float throttle = 0.0f);
+    // 2) brake
+    void brake(float brake = 0.0f);
+    // 3) lock
+    float lock(); //returns the total cost of the trip
+};
+
 /*
 Thing 4)  Paintball gun
 5 properties:
@@ -242,6 +343,27 @@ Thing 4)  Paintball gun
     2) load a paintball into chamber
     3) lock trigger safety
  */
+
+struct PaintballGun 
+{
+    // 1) CO2 pressure psi (int)
+    int pressure = 333;
+    // 2) paintballs in the hopper (int)
+    int hopper = 100;
+    // 3) paintballs in the chamber (int)
+    int chamber = 0;
+    // 4) volume of lubrication (float)
+    float oil = 1.0f;
+    // 5) valve aperature (float)
+    float valve = 0.5f;
+
+    // 1) shoot a paintball
+    bool shoot(int chamber); //returns false if too many balls in chamber
+    // 2) load a paintball into chamber
+    bool load(int chamber); //returns false if too many balls in chamber
+    // 3) lock trigger safety
+    void lock();
+};
 
 /*
 Thing 5) Propeller
@@ -257,6 +379,26 @@ Thing 5) Propeller
     3) decrease speed
  */
 
+struct Propeller
+{
+    // 1) motor voltage (float)
+    float voltage = 11.1f;
+    // 2) motor speed in thousands of rpms (float)
+    float speed = 12.0f;
+    // 3) propeller size in inches (float)
+    float size = 5.0f;
+    // 4) motor weight in grams (float)
+    float weight = 6.2f;
+    // 5) motor efficiency in percent (int)
+    int efficiency = 70;
+
+    // 1) accelerate
+    float accelerate(float voltage);    //returns speed
+    // 2) maintain speed
+    float maintain(float speed);    //returns voltage
+    // 3) get speed
+};  float getSpeed();   //gets speed
+
 /*
 Thing 6) Battery
 5 properties:
@@ -270,6 +412,27 @@ Thing 6) Battery
     2) discharge
     3) disconnect
  */
+
+struct Battery
+{
+    // 1) voltage (float)
+    float voltage = 3.7f;
+    // 2) number of cells (int)
+    int cells = 1;
+    // 3) capacity in mAh (int)
+    int capacity = 750;
+    // 4) c-rating (int)
+    int crating = 45;
+    // 5) battery type (std::string)
+    std::string type = "LiPo";
+
+    // 1) charge
+    float charge(); //returns voltage
+    // 2) discharge
+    float discharge(); //returns voltage
+    // 3) disconnect
+    void disconnect();
+};
 
 /*
 Thing 7) GPS
@@ -285,19 +448,26 @@ Thing 7) GPS
     3) get signal strength
  */
 
-/*
-Thing 8) CPU
-5 properties:
-    1) speed in MHz (float)
-    2) number of cores (int)
-    3) memory in GB (int)
-    4) model (std::string)
-    5) mirocontroller (std::string)
-3 things it can do:
-    1) get drone speed
-    2) balance drone
-    3) execute presets
- */
+struct GPS
+{
+    // 1) latitude (float)
+    float latitude = 34.052235f;
+    // 2) longitude (float)
+    float longitude = -118.243683f;
+    // 3) altitude (float)
+    float altitude = 0.1f;
+    // 4) time (float)
+    float time = 1541393269.3742561f;
+    // 5) signal strength in percentage (int)
+    int signal = 99;
+
+    // 1) get location
+    void getLocation(); // updates struct params
+    // 2) get time
+    float getTime(float latitude, float longitude); // returns current GPS server time based on location
+    // 3) get signal strength
+    int getSignal(); //returns signal strength 
+};
 
 /*
 Thing 9) Presets
@@ -313,6 +483,63 @@ Thing 9) Presets
     3) rename a preset
  */
 
+struct Preset
+{
+    // 1) preset name (std::string)
+    std::string name = "barrel roll";
+    // 2) preset type (std::string)
+    std::string type = "maneuver";
+    // 3) preset number (int)
+    int number = 1;
+    // 4) preset size in MB (int)
+    int size = 2;
+    // 5) preset author (std::string)
+    std::string author = "Toby";
+
+    // 1) save a preset
+    bool savePreset(std::string name, std::string type, std::string author); // returns successful save
+    // 2) checks for an existing preset
+    bool checkPreset(std::string name); // returns whether preset exists
+    // 3) rename a preset
+    void renamePreset(std::string oldName, std::string newName);
+};
+
+/*
+Thing 8) CPU
+5 properties:
+    1) speed in MHz (float)
+    2) number of cores (int)
+    3) memory in GB (int)
+    4) model (std::string)
+    5) mirocontroller (std::string)
+3 things it can do:
+    1) get drone speed
+    2) balance drone
+    3) execute presets
+ */
+
+struct CPU
+{
+    // 1) speed in MHz (float)
+    float speed = 2.1f;
+    // 2) number of cores (int)
+    int numCores = 2;
+    // 3) memory in GB (int)
+    int memory = 512;
+    // 4) model (std::string)
+    std::string model = "U11X";
+    // 5) architecture (std::string)
+    std::string architecture = "ARM"; 
+
+
+    // 1) get drone speed
+    float getSpeed(); // returns speed
+    // 2) balance drone
+    void balance();
+    // 3) execute presets
+    void runPreset(Preset preset);
+};
+
 /*
 Thing 10) Drone
 5 properties: 
@@ -326,6 +553,28 @@ Thing 10) Drone
     2) Maneuver 
     3) Land
  */
+
+
+struct Drone
+{
+    // 1) Propellers
+    Propeller propellerA;
+    // 2) Battery
+    Battery batteryA;
+    // 3) GPS
+    GPS gpsA;
+    // 4) CPU
+    CPU cpuA;
+    // 5) Presets
+    Preset presetA;
+
+    // 1) Lift off
+    void liftOff();
+    // 2) Maneuver
+    void maneuver(); 
+    // 3) Land
+    bool land(); // returns if landing area not clear
+};
 
 /*
  MAKE SURE YOU ARE NOT ON THE MASTER BRANCH
