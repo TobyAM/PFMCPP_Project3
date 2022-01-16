@@ -223,7 +223,7 @@ struct CoffeeShop
     struct Customer
     {
         std::string name = "Customer 1";
-        int customerPhoneNumber = 15555555555;
+        int customerPhoneNumber = 1234567890;
         int customerID = 1;
         bool rewardsMember = false;
         float rewardsBalance = 0.0f;
