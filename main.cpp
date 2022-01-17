@@ -607,7 +607,7 @@ struct Drone
     Preset presetLand;
 
     void liftOff();
-    void maneuver(); 
+    void maneuver(float input); 
     bool land();
 };
 
@@ -622,10 +622,9 @@ void Drone::liftOff()
     }
 }
 
-void Drone::maneuver()
+void Drone::maneuver(float input)
 {
-    int input;
-    std::cin >> input;
+    
     propellerA.accelerate(input);
     propellerB.accelerate(input);
     propellerC.accelerate(input);
