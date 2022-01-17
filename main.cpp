@@ -150,7 +150,7 @@ void Person::run( int howFast, bool startWithLeftFoot)
         rightFoot.stepForward();
     }
     else
-        {
+    {
         rightFoot.stepForward(); // returns void
         leftFoot.stepForward();
     }
@@ -169,7 +169,7 @@ void Person::run( int howFast, bool startWithLeftFoot)
  3) be sure to write the correct full qualified name for the nested type's member functions.
  
  4) After you finish defining each type/function, click the [run] button.  Clear up any errors or warnings as best you can.
- if your code produces a -Wpadded warning, add '-Wno-padded' to the .replit file with the other compiler flags (-Weverything -Wno-missing-prototypes etc etc)
+ if your code produces a -Wpadded warning, add '-Wn o-padded' to the .replit file with the other compiler flags (-Weverything -Wno-missing-prototypes etc etc)
  */
 
 struct CoffeeShop
@@ -360,7 +360,7 @@ struct ScooterRental
     float latitude = 34.052235f;
     float longitude = -118.243683f;
     float balance = 1.0f;
-    int voltage = 100;
+    float voltage = 100.0f;
 
     void accelerate(float throttle = 0.0f);
     void brake(float brake = 0.0f);
@@ -369,7 +369,7 @@ struct ScooterRental
 
 void ScooterRental::accelerate(float throttle)
 {
-    voltage = int( voltage * throttle);
+    voltage = voltage * throttle;
 }
 
 void ScooterRental::brake(float brake)
@@ -510,7 +510,7 @@ void GPS::getLocation()
 
 float GPS::getTime(float targetLatitude, float targetLongitude)
 {
-    std::cout <<"Retrieving data from GPS for coordinates: " << targetLatitude << ", " << targetLongitude << "...\n";
+    std::cout << "Retrieving data from GPS for coordinates: " << targetLatitude << ", " << targetLongitude << "...\n";
     //  mystery function to get time
     return time;
 }
@@ -613,7 +613,7 @@ struct Drone
 
 void Drone::liftOff()
 {
-    if( int(gpsA.altitude) == 0) // hmm
+    if( gpsA.altitude > 0) // hmm
     {
         propellerA.accelerate(3.0f);
         propellerB.accelerate(3.0f);
@@ -634,7 +634,7 @@ void Drone::maneuver()
 
 bool Drone::land()
 {
-    if( int(gpsA.altitude) != 0)
+    if( gpsA.altitude > 0)
     {
         // check the lidar!
         return true;
