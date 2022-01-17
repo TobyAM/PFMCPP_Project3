@@ -108,8 +108,55 @@ struct CarWash
     You'll need to insert the Person struct from the video in the space below.
  */
 
+struct Person
+{
+    int age;
+    int height;
+    float hairLength;
+    float GPA;
+    unsigned int SATScore;
+    int distanceTraveled;
 
+    struct Foot
+    {
+        int footYPosition = 0;
+        int size = 3;
 
+        int stepSize();
+        void stepForward();
+    };
+
+    void run( int howFast, bool startWithLeftFoot);
+
+    Foot leftFoot;
+    Foot rightFoot;
+};
+
+int Person::Foot::stepSize()
+{
+    return size;
+}
+
+void Person::Foot::stepForward()
+{
+    footYPosition = 3;
+}
+
+void Person::run( int howFast, bool startWithLeftFoot)
+{
+    if( startWithLeftFoot == true )
+    {
+        leftFoot.stepForward();
+        rightFoot.stepForward();
+    }
+    else
+    {
+        rightFoot.stepForward(); // returns void
+        leftFoot.stepForward();
+    }
+
+    distanceTraveled += (leftFoot.stepSize() + rightFoot.stepSize()) * howFast;
+}
 
 
  /*
@@ -122,35 +169,15 @@ struct CarWash
  3) be sure to write the correct full qualified name for the nested type's member functions.
  
  4) After you finish defining each type/function, click the [run] button.  Clear up any errors or warnings as best you can.
- if your code produces a -Wpadded warning, add '-Wno-padded' to the .replit file with the other compiler flags (-Weverything -Wno-missing-prototypes etc etc)
- */
-
-
-/*
-Thing 1) Coffee shop
-5 properties:
-    1) the number of baristas (int)
-    2) the number of coffee machines (int)
-    3) the number of registers (int)
-    4) the number of tables (int)
-    5) the types of coffee (std::string)
-3 things it can do:
-    1) make a coffee
-    2) grind coffee beans
-    3) modify customer names
+ if your code produces a -Wpadded warning, add '-Wn o-padded' to the .replit file with the other compiler flags (-Weverything -Wno-missing-prototypes etc etc)
  */
 
 struct CoffeeShop
 {
-    // 1) the number of baristas (int)
     int numBaristas = 2;
-    // 2) the number of coffee machines (int)
     int numCoffeeMachines = 4;
-    // 3) the number of registers (int)
     int numRegisters = 2;
-    // 4) the number of tables (int)
     int numTables = 12;
-    // 5) the types of coffee (std::string)
     std::string brewMethod = "pour over";
 
     struct Coffee
@@ -162,51 +189,102 @@ struct CoffeeShop
     struct Customer
     {
         std::string name = "Customer 1";
-        int customerPhoneNumber = 1234567890;
+        int customerPhoneNumber = 0;
         int customerID = 1;
         bool rewardsMember = false;
         float rewardsBalance = 0.0f;
 
-        bool useRewardsPoints(float rewardsPoints); //returns if there wasn't enough balance
+        bool useRewardsPoints(float rewardsPoints);
         void newMemberPromotion(float incentiveAmount);
         bool contactCustomer(std::string msg = "Your order is ready.");
     };
 
-    // 1) make a coffee
-    bool brewCoffee(Coffee coffeeType, int size, std::string brewType, bool cream, bool sugar, std::string customerName); //returns "coffee ready" - I think you'd do this for 'urgent' asynchronous tasks like this?
-    // 2) grind coffee beans
+    bool brewCoffee(Coffee coffeeType, int size, std::string brewType, bool cream, bool sugar, std::string customerName);
     bool grindCoffee(Coffee coffeeType, int courseness, Customer customerA);
-    // 3) modify customer names
-    void renameCustomer(Customer customerA);
+    void renameCustomer(Customer customerA, std::string newName);
 
     Coffee standardBrew;
+
 };
 
-/*
-Thing 2) Invoice application
-5 properties:
-    1) the number of invoices (int)
-    2) the number of clients (int)
-    3) the outstanding balance (float)
-    4) the number of templates (int)
-    5) the types of jobs (std::string)
-3 things it can do:
-    1) create an invoice
-    2) check if an invoice is late
-    3) calculate outstanding balance
- */
+bool CoffeeShop::Customer::contactCustomer(std::string msg)
+{
+    if( customerPhoneNumber != 0 )
+    {
+        if( msg.length() > 1 )
+        {
+            // phoneAPI.sendText(msg, customerPhoneNumber); IDK, this was a bad example in hindsight
+            return true;
+        }  
+
+    }
+
+    return false;
+}
+
+bool CoffeeShop::Customer::useRewardsPoints(float rewardsPoints)
+{
+    if( rewardsMember == true )
+    {
+        if( rewardsBalance > rewardsPoints )
+        {
+            rewardsBalance -= rewardsPoints;
+            return true;
+        }
+
+    }
+
+    return false;
+}
+
+void CoffeeShop::Customer::newMemberPromotion(float incentiveAmount)
+{
+    rewardsBalance += incentiveAmount;
+    contactCustomer("Welcome to the coffee club!");
+}
+
+bool CoffeeShop::brewCoffee(Coffee coffeeType, int size, std::string brewType, bool cream, bool sugar, std::string customerName)
+{
+    std::cout << "New order for " << customerName << ": " << size << " " << brewType << " " << coffeeType.type << " " << coffeeType.roast;
+    if( cream)
+    {
+        std::cout << ", with cream";
+    }
+
+    if( sugar)
+    {
+        std::cout << ", with sugar";
+    }
+    
+    std::cout  << "\n";
+    return true;
+}
+
+bool CoffeeShop::grindCoffee(Coffee coffeeType, int courseness, Customer customerA)
+{
+    std::cout << "Courseness: " << courseness << " " << coffeeType.type << " " << coffeeType.roast << " for: " << customerA.name << "\n";
+    return true;
+}
+
+void CoffeeShop::renameCustomer(Customer customerA, std::string newName)
+{
+    if( newName.length() > 1)
+    {
+        customerA.name = newName;
+        std::cout << "Customer's name changed to: " << customerA.name << "\n";
+    }
+    else
+    {
+        std::cout << "New name too short.\n";
+    }
+}
 
 struct InvoiceManager
 {
-    // 1) the number of invoices (int)
     int numInvoices = 234;
-    // 2) the number of clients (int)
     int numClients = 32;
-    // 3) the outstanding balance (float)
     float outBalance = 10345.24f;
-    // 4) the number of templates (int)
     int numTemplates = 4;
-    // 5) the type of job (std::string)
     std::string workType = "mastering";
 
     struct Invoice
@@ -220,302 +298,349 @@ struct InvoiceManager
         bool overdue = false;
 
         void download(std::string format = "pdf");
-        void markAsPaid();
-        void duplicate();
+        void markAsPaid(Invoice invoiceA);
+        void duplicate(Invoice invoiceA);
     };
 
     struct Client
-    {  //to do. declaring just to clear errors
+    {
 
     };
 
-    // 1) create an invoice - returns an Invoice struct above
-    Invoice createInvoice(std::string clientName, int invoiceNumber, float dueDate, std::string workType = "post", float workTime = 0.0f);
-    // 2) check if an invoice is late
+    Invoice createInvoice(std::string clientName, float dueDate, std::string workType = "post", float workTime = 0.0f);
     bool checkOverdue(Invoice invoice);
-    // 3) calculate outstanding balance - inputs a Client and optional invoice, returns specific balance
     float checkBalance(Client client, Invoice invoice);
 };
 
-/*
-Thing 3) Scooter rental
-5 properties:
-    1) the battery level (int)
-    2) the rental time (float)
-    3) the distance traveled (int)
-    4) the GPS coordinates (float)
-    5) the rental balance (float)
-3 things it can do:
-    1) accelerate
-    2) brake
-    3) lock
- */
+void InvoiceManager::Invoice::download(std::string format)
+{
+    std::cout << "https:\\\\my.freshbooks.com\\invoice." << format << "\n";
+}
+
+void InvoiceManager::Invoice::markAsPaid(Invoice invoiceA)
+{
+    invoiceA.totalBalance = 0.0f;
+    invoiceA.overdue = false;
+}
+
+void InvoiceManager::Invoice::duplicate(Invoice invoiceA)
+{
+    Invoice invoiceB = invoiceA;    // I would not really do this
+}
+
+InvoiceManager::Invoice InvoiceManager::createInvoice(std::string name, float date, std::string type, float time)
+{
+    Invoice newInvoice;
+    newInvoice.clientName = name;
+    numInvoices += 1;
+    newInvoice.invoiceNumber = numInvoices;
+    newInvoice.dueDate = date;
+    newInvoice.workType = type;
+    newInvoice.workTime = time;
+
+    return newInvoice;
+}
+
+bool InvoiceManager::checkOverdue(Invoice invoiceA)
+{
+    std::cout << "Invoice " << invoiceA.invoiceNumber << " is ";
+    if( invoiceA.overdue == false)
+    {
+        std::cout <<  "not ";
+    }
+    std::cout << "overdue.\n";
+
+    return invoiceA.overdue;
+}
 
 struct ScooterRental
 {
-    // 2) the rental time (float)
     float rentalTime = 0.0f;
-    // 3) the distance traveled ft (int)
     int distanceTraveled = 0;
-    // 4) the GPS coordinates (float)
     float latitude = 34.052235f;
     float longitude = -118.243683f;
-    // 5) the rental balance (float)
     float balance = 1.0f;
+    float voltage = 100.0f;
 
-    // 1) accelerate
     void accelerate(float throttle = 0.0f);
-    // 2) brake
     void brake(float brake = 0.0f);
-    // 3) lock
-    float lock(); //returns the total cost of the trip
+    float lock();
 };
 
-/*
-Thing 4)  Paintball gun
-5 properties:
-    1) CO2 pressure (int)
-    2) paintballs in the hopper (int)
-    3) paintballs in the chamber (int)
-    4) volume of lubrication (float)
-    5) valve aperature (float)
-3 things it can do:
-    1) shoot a paintball
-    2) load a paintball into chamber
-    3) lock trigger safety
- */
+void ScooterRental::accelerate(float throttle)
+{
+    voltage = voltage * throttle;
+}
+
+void ScooterRental::brake(float brake)
+{
+    voltage -= brake;
+}
+
+float ScooterRental::lock()
+{
+    brake(1.0f);
+    
+    return balance;
+}
 
 struct PaintballGun 
 {
-    // 1) CO2 pressure psi (int)
     int pressure = 333;
-    // 2) paintballs in the hopper (int)
     int hopper = 100;
-    // 3) paintballs in the chamber (int)
     int chamber = 0;
-    // 4) volume of lubrication (float)
     float oil = 1.0f;
-    // 5) valve aperature (float)
     float valve = 0.5f;
 
-    // 1) shoot a paintball
-    bool shoot(int chamber); //returns false if too many balls in chamber
-    // 2) load a paintball into chamber
-    bool load(int chamber); //returns false if too many balls in chamber
-    // 3) lock trigger safety
+    bool shoot();
+    bool load(); 
     void lock();
 };
 
-/*
-Thing 5) Propeller
-5 properties:
-    1) motor voltage (float)
-    2) motor speed in rpm (float)
-    3) propeller width in m (float)
-    4) motor weight in grams (float)
-    5) motor efficiency in percent (int)
-3 things it can do:
-    1) increase speed
-    2) maintain speed
-    3) decrease speed
- */
+bool PaintballGun::shoot()
+{
+    if( chamber == 1)
+    {
+        // shoot it
+        chamber = 0;
+        return true;
+    }
+
+    return false;
+}
+
+void PaintballGun::lock()
+{
+    pressure = 0;
+}
 
 struct Propeller
 {
-    // 1) motor voltage (float)
     float voltage = 11.1f;
-    // 2) motor speed in thousands of rpms (float)
     float speed = 12.0f;
-    // 3) propeller size in inches (float)
     float size = 5.0f;
-    // 4) motor weight in grams (float)
     float weight = 6.2f;
-    // 5) motor efficiency in percent (int)
     int efficiency = 70;
 
-    // 1) accelerate
-    float accelerate(float voltage);    //returns speed
-    // 2) maintain speed
-    float maintain(float speed);    //returns voltage
-    // 3) get speed
-};  float getSpeed();   //gets speed
+    float accelerate(float voltage);
+    float maintain(float speed);
+    float getSpeed();
+};
 
-/*
-Thing 6) Battery
-5 properties:
-    1) voltage (float)
-    2) number of cells (int)
-    3) capacity in mAh (int)
-    4) c-rating (int)
-    5) battery type (std::string)
-3 things it can do:
-    1) charge
-    2) discharge
-    3) disconnect
- */
+float Propeller::accelerate(float newVoltage)
+{
+    voltage = newVoltage;
+    return voltage * efficiency;
+}
+
+float Propeller::getSpeed()
+{
+    return speed;
+}
+
+float Propeller::maintain(float targetSpeed)
+{
+    if( speed < targetSpeed)
+    {
+        voltage += 1;
+    }
+    else if( speed > targetSpeed)
+    {
+        voltage -= 1;
+    }
+
+    return voltage;
+}
 
 struct Battery
 {
-    // 1) voltage (float)
     float voltage = 3.7f;
-    // 2) number of cells (int)
     int cells = 1;
-    // 3) capacity in mAh (int)
     int capacity = 750;
-    // 4) c-rating (int)
     int crating = 45;
-    // 5) battery type (std::string)
     std::string type = "LiPo";
 
-    // 1) charge
-    float charge(); //returns voltage
-    // 2) discharge
-    float discharge(); //returns voltage
-    // 3) disconnect
+    float charge();
+    float discharge();
     void disconnect();
 };
 
-/*
-Thing 7) GPS
-5 properties:
-    1) latitude (float)
-    2) longitude (float)
-    3) altitude (float)
-    4) time (float)
-    5) signal strength in percentage (int)
-3 things it can do:
-    1) get location
-    2) get time
-    3) get signal strength
- */
+float Battery::charge()
+{
+    if( voltage < 3.7f)
+    {
+        voltage += 1.0f;
+    }
+
+    return voltage;
+}
+
+float Battery::discharge()
+{
+    if( voltage > 0.0f)
+    {
+        voltage -= 1;
+    }
+
+    return voltage;
+}
+
+void Battery::disconnect()
+{
+    voltage = 0.0f;
+}
 
 struct GPS
 {
-    // 1) latitude (float)
     float latitude = 34.052235f;
-    // 2) longitude (float)
     float longitude = -118.243683f;
-    // 3) altitude (float)
-    float altitude = 0.1f;
-    // 4) time (float)
+    float altitude = 0.0f;
     float time = 1541393269.3742561f;
-    // 5) signal strength in percentage (int)
     int signal = 99;
 
-    // 1) get location
-    void getLocation(); // updates struct params
-    // 2) get time
-    float getTime(float latitude, float longitude); // returns current GPS server time based on location
-    // 3) get signal strength
-    int getSignal(); //returns signal strength 
+    void getLocation();
+    float getTime(float latitude, float longitude);
+    int getSignal();
 };
 
-/*
-Thing 9) Presets
-5 properties:
-    1) preset name (std::string)
-    2) preset type (std::string)
-    3) preset number (int)
-    4) preset size in MB (int)
-    5) preset author (std::string)
-3 things it can do:
-    1) save a preset
-    2) execute a preset
-    3) rename a preset
- */
+void GPS::getLocation()
+{
+    std::cout << "Location: " << latitude << ", " << longitude << "\n";
+}
+
+float GPS::getTime(float targetLatitude, float targetLongitude)
+{
+    std::cout << "Retrieving data from GPS for coordinates: " << targetLatitude << ", " << targetLongitude << "...\n";
+    //  mystery function to get time
+    return time;
+}
+
+int GPS::getSignal()
+{
+    return signal;
+}
 
 struct Preset
 {
-    // 1) preset name (std::string)
     std::string name = "barrel roll";
-    // 2) preset type (std::string)
     std::string type = "maneuver";
-    // 3) preset number (int)
     int number = 1;
-    // 4) preset size in MB (int)
     int size = 2;
-    // 5) preset author (std::string)
     std::string author = "Toby";
 
-    // 1) save a preset
-    bool savePreset(std::string name, std::string type, std::string author); // returns successful save
-    // 2) checks for an existing preset
-    bool checkPreset(std::string name); // returns whether preset exists
-    // 3) rename a preset
-    void renamePreset(std::string oldName, std::string newName);
+    bool savePreset(std::string name, std::string type, std::string author);
+    bool checkPreset(Preset presetA);
+    void renamePreset(std::string newName);
 };
 
-/*
-Thing 8) CPU
-5 properties:
-    1) speed in MHz (float)
-    2) number of cores (int)
-    3) memory in GB (int)
-    4) model (std::string)
-    5) mirocontroller (std::string)
-3 things it can do:
-    1) get drone speed
-    2) balance drone
-    3) execute presets
- */
+bool Preset::savePreset(std::string newName, std::string newType, std::string newAuthor)
+{
+    Preset newPreset;
+    newPreset.name = newName;
+    newPreset.type = newType;
+    newPreset.author = newAuthor;
+
+    return true;
+}
+
+bool Preset::checkPreset(Preset presetA)
+{
+    if ( presetA.size > 0)
+    {
+        return true;
+    }
+
+    return false;
+}
+
+void Preset::renamePreset(std::string newName)
+{
+    if( newName.length() > 0)
+    {
+        name = newName;
+    }
+
+}
 
 struct CPU
 {
-    // 1) speed in MHz (float)
     float speed = 2.1f;
-    // 2) number of cores (int)
     int numCores = 2;
-    // 3) memory in GB (int)
     int memory = 512;
-    // 4) model (std::string)
     std::string model = "U11X";
-    // 5) architecture (std::string)
     std::string architecture = "ARM"; 
 
 
-    // 1) get drone speed
-    float getSpeed(); // returns speed
-    // 2) balance drone
+    float getSpeed();
     void balance();
-    // 3) execute presets
     void runPreset(Preset preset);
 };
 
-/*
-Thing 10) Drone
-5 properties: 
-    1) Propellers
-    2) Battery
-    3) GPS
-    4) CPU
-    5) Presets
-3 things it can do:
-    1) Lift off
-    2) Maneuver 
-    3) Land
- */
+float CPU::getSpeed()
+{
+    float droneSpeed = 0.0f;
+    // connect to GPS and compare position at different times
+    return droneSpeed;
+}
 
+void CPU::balance()
+{
+    // run Propeller.maintain on all relevant propellers
+}
+
+void CPU::runPreset(Preset presetA)
+{
+    std::cout << "Running preset " << presetA.name << ".\n";
+    // execute the preset
+}
 
 struct Drone
 {
-    // 1) Propellers
     Propeller propellerA;
-    // 2) Battery
+    Propeller propellerB;
+    Propeller propellerC;
+    Propeller propellerD;
     Battery batteryA;
-    // 3) GPS
     GPS gpsA;
-    // 4) CPU
     CPU cpuA;
-    // 5) Presets
     Preset presetA;
+    Preset presetLand;
 
-    // 1) Lift off
     void liftOff();
-    // 2) Maneuver
-    void maneuver(); 
-    // 3) Land
-    bool land(); // returns if landing area not clear
+    void maneuver(float input); 
+    bool land();
 };
+
+void Drone::liftOff()
+{
+    if( gpsA.altitude > 0) // hmm
+    {
+        propellerA.accelerate(3.0f);
+        propellerB.accelerate(3.0f);
+        propellerC.accelerate(3.0f);
+        propellerD.accelerate(3.0f);
+    }
+}
+
+void Drone::maneuver(float input)
+{
+    
+    propellerA.accelerate(input);
+    propellerB.accelerate(input);
+    propellerC.accelerate(input);
+    propellerD.accelerate(input);
+}
+
+bool Drone::land()
+{
+    if( gpsA.altitude > 0)
+    {
+        // check the lidar!
+        return true;
+    }
+    
+    return false;
+}
 
 /*
  MAKE SURE YOU ARE NOT ON THE MASTER BRANCH
