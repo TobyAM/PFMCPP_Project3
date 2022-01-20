@@ -404,15 +404,11 @@ bool PaintballGun::load()
     {
         chamber = 1;
         std::cout << "The chamber was successfully loaded!" << std::endl;
-
         return true;
     }
 
-    {
-        std::cout << "The chamber was already loaded!" << std::endl;
-        
-        return false;
-    }
+    std::cout << "The chamber was already loaded!" << std::endl;    
+    return false;
 }
 
 struct Propeller
@@ -708,10 +704,8 @@ bool Drone::land()
         return true;
     }
     
-    {
-        std::cout << "Can't land. Already on ground!\n";
-        return false;
-    }
+    std::cout << "Can't land. Already on ground!\n";
+    return false;
 }
 
 /*
