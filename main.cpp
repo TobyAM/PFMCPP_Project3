@@ -51,7 +51,7 @@ UDT::UDT()
 
 void UDT::printThing()
 {
-    std::cout << "UDT::printThing() " << a << std::endl;  //2) printing out something interesting
+    std::cout << "UDT::printThing() " << thing << std::endl;  //2) printing out something interesting
 }
 
 int main()
@@ -80,19 +80,25 @@ struct CoffeeShop
     int numTables = 12;
     std::string brewMethod = "pour over";
 
+    CoffeeShop();
+
     struct Coffee
     {
         std::string type = "columbian";
         std::string roast = "dark";
+
+        Coffee();
     };
 
     struct Customer
     {
-        std::string name = "Customer 1";
-        int customerPhoneNumber = 0;
+        std::string name = "New Customer";
+        float customerPhoneNumber = 0.0f;
         int customerID = 1;
         bool rewardsMember = false;
         float rewardsBalance = 0.0f;
+
+        Customer();
 
         bool useRewardsPoints(float rewardsPoints);
         void newMemberPromotion(float incentiveAmount);
@@ -101,23 +107,41 @@ struct CoffeeShop
 
     bool brewCoffee(Coffee coffeeType, int size, std::string brewType, bool cream, bool sugar, std::string customerName);
     bool grindCoffee(Coffee coffeeType, int courseness, Customer customerA);
-    void renameCustomer(Customer customerA, std::string newName);
+    void renameCustomer(Customer& customerA, std::string newName); // changed to a reference after some googling because it wasn't working right
 
     Coffee standardBrew;
 
 };
 
+CoffeeShop::CoffeeShop()
+{
+    std::cout << "CoffeeShop UDT being constructed!" << std::endl; //1) 
+}
+
+CoffeeShop::Coffee::Coffee()
+{
+    std::cout << "CoffeeShop::Coffee UDT being constructed!" << std::endl; //1) 
+}
+
+CoffeeShop::Customer::Customer()
+{
+    std::cout << "CoffeeShop::Customer UDT being constructed!" << std::endl; //1) 
+
+}
+
 bool CoffeeShop::Customer::contactCustomer(std::string msg)
 {
-    if( customerPhoneNumber != 0 )
+    if( customerPhoneNumber > 0 )
     {
         if( msg.length() > 1 )
         {
-            // phoneAPI.sendText(msg, customerPhoneNumber); IDK, this was a bad example in hindsight
+            std::cout << "Texting " << name << ": \"" << msg << "\"" << std::endl;
             return true;
-        }  
+        }
+        else std::cout << "Message is too short.\n";
 
     }
+    else std::cout << name << " doesn't have a phone number saved.\n";
 
     return false;
 }
@@ -129,10 +153,13 @@ bool CoffeeShop::Customer::useRewardsPoints(float rewardsPoints)
         if( rewardsBalance > rewardsPoints )
         {
             rewardsBalance -= rewardsPoints;
+            std::cout << name << " used " << rewardsPoints << " points, leaving a balance of " << rewardsBalance << "\n";
             return true;
         }
+        else std::cout << name << " doesn't have enough points.\n";
 
     }
+    else std::cout << name << " is not a rewards member!\n";
 
     return false;
 }
@@ -140,12 +167,13 @@ bool CoffeeShop::Customer::useRewardsPoints(float rewardsPoints)
 void CoffeeShop::Customer::newMemberPromotion(float incentiveAmount)
 {
     rewardsBalance += incentiveAmount;
+    rewardsMember = true;
     contactCustomer("Welcome to the coffee club!");
 }
 
 bool CoffeeShop::brewCoffee(Coffee coffeeType, int size, std::string brewType, bool cream, bool sugar, std::string customerName)
 {
-    std::cout << "New order for " << customerName << ": " << size << " " << brewType << " " << coffeeType.type << " " << coffeeType.roast;
+    std::cout << "New order for " << customerName << ": size " << size << ", " << brewType << ", " << coffeeType.type << ", " << coffeeType.roast;
     if( cream)
     {
         std::cout << ", with cream";
@@ -156,22 +184,24 @@ bool CoffeeShop::brewCoffee(Coffee coffeeType, int size, std::string brewType, b
         std::cout << ", with sugar";
     }
     
-    std::cout  << "\n";
+    std::cout << std::endl;
+
     return true;
 }
 
 bool CoffeeShop::grindCoffee(Coffee coffeeType, int courseness, Customer customerA)
 {
-    std::cout << "Courseness: " << courseness << " " << coffeeType.type << " " << coffeeType.roast << " for: " << customerA.name << "\n";
+    std::cout << "Ground coffee to courseness " << courseness << ", " << coffeeType.type << ", " << coffeeType.roast << " for: " << customerA.name << "\n";
     return true;
 }
 
-void CoffeeShop::renameCustomer(Customer customerA, std::string newName)
+void CoffeeShop::renameCustomer(Customer& customerA, std::string newName)
 {
     if( newName.length() > 1)
     {
+        std::cout << customerA.name;
         customerA.name = newName;
-        std::cout << "Customer's name changed to: " << customerA.name << "\n";
+        std::cout << "'s name changed to: " << customerA.name << "\n";
     }
     else
     {
@@ -187,6 +217,8 @@ struct InvoiceManager
     int numTemplates = 4;
     std::string workType = "mastering";
 
+    InvoiceManager();
+
     struct Invoice
     {
         std::string clientName;
@@ -197,35 +229,45 @@ struct InvoiceManager
         float dueDate;
         bool overdue = false;
 
+        Invoice();
+
         void download(std::string format = "pdf");
-        void markAsPaid(Invoice invoiceA);
-        void duplicate(Invoice invoiceA);
+        void markAsPaid(Invoice& invoiceA);
+        void duplicate(Invoice& invoiceA);
     };
 
-    struct Client
-    {
-
-    };
 
     Invoice createInvoice(std::string clientName, float dueDate, std::string workType = "post", float workTime = 0.0f);
     bool checkOverdue(Invoice invoice);
-    float checkBalance(Client client, Invoice invoice);
+    float checkBalance(Invoice invoice);
 };
+
+InvoiceManager::InvoiceManager()
+{
+    std::cout << "InvoiceManager::InvoiceManager UDT being constructed!" << std::endl; //1)
+}
+
+InvoiceManager::Invoice::Invoice()
+{
+    std::cout << "InvoiceManager::Invoice::Invoice UDT being constructed!" << std::endl; //1)
+}
 
 void InvoiceManager::Invoice::download(std::string format)
 {
     std::cout << "https:\\\\my.freshbooks.com\\invoice." << format << "\n";
 }
 
-void InvoiceManager::Invoice::markAsPaid(Invoice invoiceA)
+void InvoiceManager::Invoice::markAsPaid(Invoice& invoiceA)
 {
     invoiceA.totalBalance = 0.0f;
     invoiceA.overdue = false;
 }
 
-void InvoiceManager::Invoice::duplicate(Invoice invoiceA)
+void InvoiceManager::Invoice::duplicate(Invoice& invoiceA)
 {
     Invoice invoiceB = invoiceA;    // I would not really do this
+    invoiceB.invoiceNumber += 1;
+    std::cout << "Duplicated invoice " << invoiceA.invoiceNumber << " as " << invoiceB.invoiceNumber << std::endl;
 }
 
 InvoiceManager::Invoice InvoiceManager::createInvoice(std::string name, float date, std::string type, float time)
@@ -253,6 +295,13 @@ bool InvoiceManager::checkOverdue(Invoice invoiceA)
     return invoiceA.overdue;
 }
 
+float InvoiceManager::checkBalance(Invoice invoiceA)
+{
+    std::cout << invoiceA.invoiceNumber << " balance is: " << invoiceA.totalBalance << std::endl;
+
+    return invoiceA.totalBalance;
+}
+
 struct ScooterRental
 {
     float rentalTime = 0.0f;
@@ -262,24 +311,34 @@ struct ScooterRental
     float balance = 1.0f;
     float voltage = 100.0f;
 
+    ScooterRental();
+
     void accelerate(float throttle = 0.0f);
     void brake(float brake = 0.0f);
     float lock();
 };
 
+ScooterRental::ScooterRental()
+{
+    std::cout << "ScooterRental UDT being constructed!" << std::endl; //1)
+}
+
 void ScooterRental::accelerate(float throttle)
 {
     voltage = voltage * throttle;
+    std::cout << "The scooter voltage is " << voltage << std::endl;
 }
 
 void ScooterRental::brake(float brake)
 {
     voltage -= brake;
+    std::cout << "The scooter voltage is " << voltage << std::endl;
 }
 
 float ScooterRental::lock()
 {
-    brake(1.0f);
+    voltage = 0.0f;
+    std::cout << "The scooter voltage is " << voltage << std::endl;
     
     return balance;
 }
@@ -291,27 +350,75 @@ struct PaintballGun
     int chamber = 0;
     float oil = 1.0f;
     float valve = 0.5f;
+    bool triggerLock = false;
+
+    PaintballGun();
 
     bool shoot();
     bool load(); 
     void lock();
 };
 
+PaintballGun::PaintballGun()
+{
+    std::cout << "PaintballGun UDT being constructed!" << std::endl; //1)
+}
+
 bool PaintballGun::shoot()
 {
-    if( chamber == 1)
+    if (triggerLock)
+        {
+            std::cout << "Can't fire! Locked!" << std::endl;
+
+            return false;
+        }
+
+    else
     {
-        // shoot it
-        chamber = 0;
-        return true;
+        if( chamber == 1)
+        {
+            // shoot it
+            chamber = 0;
+            std::cout << "Ball shot! ------------->" << std::endl;
+
+            return true;
+        }
+
     }
 
+    std::cout << "The chamber is empty!" << std::endl;
     return false;
 }
 
 void PaintballGun::lock()
 {
-    pressure = 0;
+    if( triggerLock)
+    {
+        triggerLock = false;
+        std::cout << "The marker has been un-locked!" << std::endl;
+    }
+    else
+    {
+        triggerLock = true;
+        std::cout << "The marker has been locked." << std::endl;
+    }
+}
+
+bool PaintballGun::load()
+{
+    if( chamber == 0)
+    {
+        chamber = 1;
+        std::cout << "The chamber was successfully loaded!" << std::endl;
+
+        return true;
+    }
+    else
+    {
+        std::cout << "The chamber was already loaded!" << std::endl;
+        
+        return false;
+    }
 }
 
 struct Propeller
@@ -322,19 +429,28 @@ struct Propeller
     float weight = 6.2f;
     int efficiency = 70;
 
+    Propeller();
+
     float accelerate(float voltage);
     float maintain(float speed);
     float getSpeed();
 };
 
+Propeller::Propeller()
+{
+    std::cout << "Propeller UDT being constructed!" << std::endl; //1)
+}
+
 float Propeller::accelerate(float newVoltage)
 {
     voltage = newVoltage;
+    std::cout << "Voltage is " << voltage << ".\n";
     return voltage * efficiency;
 }
 
 float Propeller::getSpeed()
 {
+    std::cout << "Speed is " << speed << ".\n";
     return speed;
 }
 
@@ -343,10 +459,12 @@ float Propeller::maintain(float targetSpeed)
     if( speed < targetSpeed)
     {
         voltage += 1;
+        std::cout << "Voltage is " << voltage << ".\n";
     }
     else if( speed > targetSpeed)
     {
         voltage -= 1;
+        std::cout << "Voltage is " << voltage << ".\n";
     }
 
     return voltage;
@@ -360,16 +478,24 @@ struct Battery
     int crating = 45;
     std::string type = "LiPo";
 
+    Battery();
+
     float charge();
     float discharge();
     void disconnect();
 };
+
+Battery::Battery()
+{
+    std::cout << "Battery UDT being constructed!" << std::endl; //1)
+}
 
 float Battery::charge()
 {
     if( voltage < 3.7f)
     {
         voltage += 1.0f;
+        std::cout << "Voltage is " << voltage << ".\n";
     }
 
     return voltage;
@@ -382,12 +508,15 @@ float Battery::discharge()
         voltage -= 1;
     }
 
+    std::cout << "Voltage is " << voltage << ".\n";
+
     return voltage;
 }
 
 void Battery::disconnect()
 {
     voltage = 0.0f;
+    std::cout << "Voltage is " << voltage << ".\n";
 }
 
 struct GPS
@@ -398,10 +527,17 @@ struct GPS
     float time = 1541393269.3742561f;
     int signal = 99;
 
+    GPS();
+
     void getLocation();
     float getTime(float latitude, float longitude);
     int getSignal();
 };
+
+GPS::GPS()
+{
+    std::cout << "GPS UDT being constructed!" << std::endl; //1)
+}
 
 void GPS::getLocation()
 {
@@ -428,10 +564,17 @@ struct Preset
     int size = 2;
     std::string author = "Toby";
 
+    Preset();
+
     bool savePreset(std::string name, std::string type, std::string author);
     bool checkPreset(Preset presetA);
     void renamePreset(std::string newName);
 };
+
+Preset::Preset()
+{
+    std::cout << "Preset UDT being constructed!" << std::endl; //1)
+}
 
 bool Preset::savePreset(std::string newName, std::string newType, std::string newAuthor)
 {
@@ -439,6 +582,7 @@ bool Preset::savePreset(std::string newName, std::string newType, std::string ne
     newPreset.name = newName;
     newPreset.type = newType;
     newPreset.author = newAuthor;
+    std::cout << "Preset " << newPreset.name << ", type " << newPreset.type << ", author " << newPreset.author << ".\n";
 
     return true;
 }
@@ -447,8 +591,10 @@ bool Preset::checkPreset(Preset presetA)
 {
     if ( presetA.size > 0)
     {
+        std::cout << "Preset is empty.\n";
         return true;
     }
+    std::cout << "Preset is " << size << "MB.\n";
 
     return false;
 }
@@ -458,6 +604,7 @@ void Preset::renamePreset(std::string newName)
     if( newName.length() > 0)
     {
         name = newName;
+        std::cout << "Renamed preset: " << name << ".\n";
     }
 
 }
@@ -468,23 +615,31 @@ struct CPU
     int numCores = 2;
     int memory = 512;
     std::string model = "U11X";
-    std::string architecture = "ARM"; 
+    std::string architecture = "ARM";
 
+    CPU();
 
     float getSpeed();
     void balance();
     void runPreset(Preset preset);
 };
 
+CPU::CPU()
+{
+    std::cout << "CPU UDT being constructed!" << std::endl; //1)
+}
+
+
 float CPU::getSpeed()
 {
-    float droneSpeed = 0.0f;
+    std::cout << "Speed is " << speed << ".\n";
     // connect to GPS and compare position at different times
-    return droneSpeed;
+    return speed;
 }
 
 void CPU::balance()
 {
+     std::cout << "Balancing the load.\n";
     // run Propeller.maintain on all relevant propellers
 }
 
@@ -506,19 +661,31 @@ struct Drone
     Preset presetA;
     Preset presetLand;
 
+    Drone();
+
     void liftOff();
     void maneuver(float input); 
     bool land();
 };
 
+Drone::Drone()
+{
+    std::cout << "Drone UDT being constructed!" << std::endl; //1)
+}
+
 void Drone::liftOff()
 {
-    if( gpsA.altitude > 0) // hmm
+    if( gpsA.altitude > 0.0f) std::cout << "Already airborn!\n";
+    else
     {
         propellerA.accelerate(3.0f);
         propellerB.accelerate(3.0f);
         propellerC.accelerate(3.0f);
         propellerD.accelerate(3.0f);
+
+        gpsA.altitude += 1.0f;
+
+        std::cout << "Lifting off!\n";
     }
 }
 
@@ -529,15 +696,20 @@ void Drone::maneuver(float input)
     propellerB.accelerate(input);
     propellerC.accelerate(input);
     propellerD.accelerate(input);
+
+    std::cout << "Manuevering drone!\n";
 }
 
 bool Drone::land()
 {
-    if( gpsA.altitude > 0)
+    if( gpsA.altitude > 0.0f)
     {
         // check the lidar!
+        std::cout << "Landing. Clear landing area!\n";
+        gpsA.altitude -= 1.0f;
         return true;
     }
+    else std::cout << "Can't land. Already on ground!\n";
     
     return false;
 }
@@ -559,8 +731,114 @@ bool Drone::land()
 #include <iostream>
 int main()
 {
-    Example::main();
+    // Example::main();
     
     
     std::cout << "good to go!" << std::endl;
+
+    std::cout << std::endl; // new UDT
+
+    CoffeeShop broBucks;
+    CoffeeShop::Customer tobyMason;
+
+    broBucks.renameCustomer(tobyMason, "Toby Mason");
+    broBucks.grindCoffee(broBucks.standardBrew, 2, tobyMason);
+    broBucks.brewCoffee(broBucks.standardBrew, 2, "cold brew", true, false,"Toby Mason");
+
+    std::cout << std::endl; // new UDT
+
+    tobyMason.useRewardsPoints( 130.0f);
+    tobyMason.newMemberPromotion( 3.0f);
+    std::cout << "Toby's rewards's balance is now: " << tobyMason.rewardsBalance << std::endl;
+    tobyMason.useRewardsPoints( 12.0f);
+    tobyMason.useRewardsPoints( 2.0f);
+    tobyMason.contactCustomer();
+    tobyMason.customerPhoneNumber = 3233933291;
+    tobyMason.contactCustomer("k");
+    tobyMason.contactCustomer();
+
+    std::cout << std::endl; // new UDT
+
+    InvoiceManager tobyInvoices;
+    InvoiceManager::Invoice testInvoice;
+    
+    tobyInvoices.createInvoice("test invoice 2", 346255342.0f);
+    testInvoice.invoiceNumber = 5;
+    tobyInvoices.checkOverdue(testInvoice);
+    testInvoice.totalBalance = 543.21f;
+    tobyInvoices.checkBalance(testInvoice);
+    testInvoice.download();
+    testInvoice.markAsPaid(testInvoice);
+    std::cout << "Invoice " << testInvoice.invoiceNumber << " remaining balance: " << testInvoice.totalBalance << std::endl;
+    testInvoice.duplicate(testInvoice);
+
+    std::cout << std::endl; // new UDT
+    
+    ScooterRental tobysScooter;
+
+    tobysScooter.accelerate( 1.5f);
+    tobysScooter.brake(100.0f);
+    tobysScooter.lock();
+
+    std::cout << std::endl; // new UDT
+
+    PaintballGun tobysMarker;
+
+    tobysMarker.shoot();
+    tobysMarker.load();
+    tobysMarker.lock();
+    tobysMarker.shoot();
+    tobysMarker.lock();
+    tobysMarker.shoot();
+    std::cout << std::endl;
+
+    std::cout << std::endl; // new UDT
+
+    Propeller propA;
+    
+    propA.accelerate(12.0f);
+    propA.maintain( 10.0f);
+    propA.getSpeed();
+
+    std::cout << std::endl; // new UDT
+
+    Battery cellA;
+
+    std::cout << "cellA is charging with voltage: " << cellA.charge() << std::endl;
+    cellA.discharge();
+    cellA.disconnect();
+
+    std::cout << std::endl; // new UDT
+
+    GPS gpsNew;
+
+    gpsNew.getLocation();
+    gpsNew.getTime(19, 19);
+    std::cout << "Signal strength is " << gpsNew.getSignal() << std::endl;
+
+    std::cout << std::endl; // new UDT
+
+    Preset tobysPreset;
+
+    tobysPreset.savePreset("barrel roll", "evasion", "TM");
+    tobysPreset.checkPreset(tobysPreset);
+    tobysPreset.renamePreset("Barrel Roll");
+
+    std::cout << std::endl; // new UDT
+
+    CPU cpuA;
+
+    cpuA.getSpeed();
+    cpuA.balance();
+    cpuA.runPreset(tobysPreset);
+
+    std::cout << std::endl; // new UDT
+
+    Drone tobysDrone;
+
+    tobysDrone.liftOff();
+    tobysDrone.maneuver(5.0f);
+    tobysDrone.land();
+
+    
 }
