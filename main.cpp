@@ -367,23 +367,17 @@ PaintballGun::PaintballGun()
 bool PaintballGun::shoot()
 {
     if (triggerLock)
-        {
-            std::cout << "Can't fire! Locked!" << std::endl;
-
-            return false;
-        }
-
-    else
     {
-        if( chamber == 1)
-        {
-            // shoot it
-            chamber = 0;
-            std::cout << "Ball shot! ------------->" << std::endl;
+        std::cout << "Can't fire! Locked!" << std::endl;
+        return false;
+    }
 
-            return true;
-        }
-
+    if( chamber == 1)
+    {
+        // shoot it
+        chamber = 0;
+        std::cout << "Ball shot! ------------->" << std::endl;
+        return true;
     }
 
     std::cout << "The chamber is empty!" << std::endl;
@@ -413,7 +407,7 @@ bool PaintballGun::load()
 
         return true;
     }
-    else
+
     {
         std::cout << "The chamber was already loaded!" << std::endl;
         
@@ -675,7 +669,11 @@ Drone::Drone()
 
 void Drone::liftOff()
 {
-    if( gpsA.altitude > 0.0f) std::cout << "Already airborn!\n";
+    if( gpsA.altitude > 0.0f)
+    {
+        std::cout << "Already airborn!\n";
+    }
+
     else
     {
         propellerA.accelerate(3.0f);
@@ -709,9 +707,11 @@ bool Drone::land()
         gpsA.altitude -= 1.0f;
         return true;
     }
-    else std::cout << "Can't land. Already on ground!\n";
     
-    return false;
+    {
+        std::cout << "Can't land. Already on ground!\n";
+        return false;
+    }
 }
 
 /*
@@ -731,7 +731,7 @@ bool Drone::land()
 #include <iostream>
 int main()
 {
-    // Example::main();
+    Example::main();
     
     
     std::cout << "good to go!" << std::endl;
