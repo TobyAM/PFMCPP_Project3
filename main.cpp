@@ -44,17 +44,19 @@ int main()
 struct CoffeeShop
 {
     int numBaristas = 2;
-    int numCoffeeMachines = 4;
-    int numRegisters = 2;
+    int numCoffeeMachines { 4 };
+    int numRegisters;
+    CoffeeShop() : numRegisters(2)
+    {
+        std::cout << "CoffeeShop UDT being constructed!" << std::endl;  
+    }
     int numTables = 12;
     std::string brewMethod = "pour over";
-
-    CoffeeShop();
 
     struct Coffee
     {
         std::string type = "columbian";
-        std::string roast = "dark";
+        std::string roast { "dark" };
 
         Coffee();
     };
@@ -62,10 +64,10 @@ struct CoffeeShop
     struct Customer
     {
         std::string name = "New Customer";
-        float customerPhoneNumber = 0.0f;
-        int customerID = 1;
-        bool rewardsMember = false;
-        float rewardsBalance = 0.0f;
+        float customerPhoneNumber { 0.0f };
+        int customerID;
+        bool rewardsMember;
+        float rewardsBalance;
 
         Customer();
 
@@ -82,19 +84,15 @@ struct CoffeeShop
 
 };
 
-CoffeeShop::CoffeeShop()
-{
-    std::cout << "CoffeeShop UDT being constructed!" << std::endl; //1) 
-}
 
 CoffeeShop::Coffee::Coffee()
 {
-    std::cout << "CoffeeShop::Coffee UDT being constructed!" << std::endl; //1) 
+    std::cout << "CoffeeShop::Coffee UDT being constructed!" << std::endl;  
 }
 
-CoffeeShop::Customer::Customer()
+CoffeeShop::Customer::Customer() : customerID(1), rewardsMember(false), rewardsBalance(0.0f)
 {
-    std::cout << "CoffeeShop::Customer UDT being constructed!" << std::endl; //1) 
+    std::cout << "CoffeeShop::Customer UDT being constructed!" << std::endl;  
 
 }
 
@@ -181,10 +179,10 @@ void CoffeeShop::renameCustomer(Customer& customerA, std::string newName)
 struct InvoiceManager
 {
     int numInvoices = 234;
-    int numClients = 32;
-    float outBalance = 10345.24f;
-    int numTemplates = 4;
-    std::string workType = "mastering";
+    int numClients{32};
+    float outBalance{10345.24f};
+    int numTemplates;
+    std::string workType;
 
     InvoiceManager();
 
@@ -192,11 +190,11 @@ struct InvoiceManager
     {
         std::string clientName;
         int invoiceNumber;
-        std::string workType = "post";
-        float workTime = 0.0f;
-        float totalBalance = 0.0f;
+        std::string workType;
+        float workTime;
+        float totalBalance;
         float dueDate;
-        bool overdue = false;
+        bool overdue;
 
         Invoice();
 
@@ -211,14 +209,23 @@ struct InvoiceManager
     float checkBalance(Invoice invoice);
 };
 
-InvoiceManager::InvoiceManager()
+InvoiceManager::InvoiceManager() : numTemplates(4), workType("mastering")
 {
-    std::cout << "InvoiceManager::InvoiceManager UDT being constructed!" << std::endl; //1)
+    std::cout << "InvoiceManager::InvoiceManager UDT being constructed!" << std::endl; 
 }
 
 InvoiceManager::Invoice::Invoice()
 {
-    std::cout << "InvoiceManager::Invoice::Invoice UDT being constructed!" << std::endl; //1)
+    std::cout << "InvoiceManager::Invoice::Invoice UDT being constructed!" << std::endl; 
+    workType = "post";
+    workTime = 0.0f;
+    totalBalance = 0.0f;
+    overdue = false;
+    std::cout << "workType: " << workType << std::endl;
+    std::cout << "workTime: " << workTime << std::endl;
+    std::cout << "totalBalance: " << totalBalance << std::endl;
+    std::cout << "overdue: false\n";
+    
 }
 
 void InvoiceManager::Invoice::download(std::string format)
@@ -274,11 +281,8 @@ float InvoiceManager::checkBalance(Invoice invoiceA)
 struct ScooterRental
 {
     float rentalTime = 0.0f;
-    int distanceTraveled = 0;
-    float latitude = 34.052235f;
-    float longitude = -118.243683f;
-    float balance = 1.0f;
-    float voltage = 100.0f;
+    int distanceTraveled{0};
+    float latitude, longitude, balance, voltage;
 
     ScooterRental();
 
@@ -287,9 +291,13 @@ struct ScooterRental
     float lock();
 };
 
-ScooterRental::ScooterRental()
+ScooterRental::ScooterRental() :
+latitude(34.052235f),
+longitude(-118.243683f),
+balance(1.0f),
+voltage(100.0f)
 {
-    std::cout << "ScooterRental UDT being constructed!" << std::endl; //1)
+    std::cout << "ScooterRental UDT being constructed!" << std::endl; 
 }
 
 void ScooterRental::accelerate(float throttle)
@@ -314,12 +322,9 @@ float ScooterRental::lock()
 
 struct PaintballGun 
 {
-    int pressure = 333;
-    int hopper = 100;
-    int chamber = 0;
-    float oil = 1.0f;
-    float valve = 0.5f;
-    bool triggerLock = false;
+    int pressure, hopper, chamber;
+    float oil, valve;
+    bool triggerLock;
 
     PaintballGun();
 
@@ -328,9 +333,9 @@ struct PaintballGun
     void lock();
 };
 
-PaintballGun::PaintballGun()
+PaintballGun::PaintballGun() : pressure(333), hopper(100), chamber(0), oil(1.0f), valve(0.5f), triggerLock(false)
 {
-    std::cout << "PaintballGun UDT being constructed!" << std::endl; //1)
+    std::cout << "PaintballGun UDT being constructed!" << std::endl; 
 }
 
 bool PaintballGun::shoot()
@@ -382,11 +387,11 @@ bool PaintballGun::load()
 
 struct Propeller
 {
-    float voltage = 11.1f;
-    float speed = 12.0f;
-    float size = 5.0f;
-    float weight = 6.2f;
-    int efficiency = 70;
+    float voltage{11.1f};
+    float speed{12.0f};
+    float size;
+    float weight;
+    int efficiency;
 
     Propeller();
 
@@ -397,7 +402,10 @@ struct Propeller
 
 Propeller::Propeller()
 {
-    std::cout << "Propeller UDT being constructed!" << std::endl; //1)
+    std::cout << "Propeller UDT being constructed!" << std::endl;
+    size = 5.0f;
+    weight = 6.2f;
+    efficiency = 70;
 }
 
 float Propeller::accelerate(float newVoltage)
@@ -431,11 +439,11 @@ float Propeller::maintain(float targetSpeed)
 
 struct Battery
 {
-    float voltage = 3.7f;
-    int cells = 1;
-    int capacity = 750;
-    int crating = 45;
-    std::string type = "LiPo";
+    float voltage;
+    int cells;
+    int capacity;
+    int crating;
+    std::string type;
 
     Battery();
 
@@ -444,9 +452,9 @@ struct Battery
     void disconnect();
 };
 
-Battery::Battery()
+Battery::Battery() : voltage(3.7f), cells(1), capacity(750), crating(45), type("LiPo")
 {
-    std::cout << "Battery UDT being constructed!" << std::endl; //1)
+    std::cout << "Battery UDT being constructed!" << std::endl; 
 }
 
 float Battery::charge()
@@ -480,11 +488,11 @@ void Battery::disconnect()
 
 struct GPS
 {
-    float latitude = 34.052235f;
-    float longitude = -118.243683f;
-    float altitude = 0.0f;
-    float time = 1541393269.3742561f;
-    int signal = 99;
+    float latitude{34.052235f};
+    float longitude{-118.243683f};
+    float altitude{0.0f};
+    float time{1541393269.3742561f};
+    int signal{99};
 
     GPS();
 
@@ -495,7 +503,7 @@ struct GPS
 
 GPS::GPS()
 {
-    std::cout << "GPS UDT being constructed!" << std::endl; //1)
+    std::cout << "GPS UDT being constructed!" << std::endl; 
 }
 
 void GPS::getLocation()
@@ -517,11 +525,8 @@ int GPS::getSignal()
 
 struct Preset
 {
-    std::string name = "barrel roll";
-    std::string type = "maneuver";
-    int number = 1;
-    int size = 2;
-    std::string author = "Toby";
+    std::string name, type, author;
+    int number, size;
 
     Preset();
 
@@ -532,7 +537,12 @@ struct Preset
 
 Preset::Preset()
 {
-    std::cout << "Preset UDT being constructed!" << std::endl; //1)
+    std::cout << "Preset UDT being constructed!" << std::endl;
+    name = "barrel roll";
+    type = "maneuver";
+    number = 1;
+    size = 2;
+    author = "Toby";
 }
 
 bool Preset::savePreset(std::string newName, std::string newType, std::string newAuthor)
@@ -570,11 +580,11 @@ void Preset::renamePreset(std::string newName)
 
 struct CPU
 {
-    float speed = 2.1f;
-    int numCores = 2;
-    int memory = 512;
-    std::string model = "U11X";
-    std::string architecture = "ARM";
+    float speed;
+    int numCores;
+    int memory;
+    std::string model;
+    std::string architecture;
 
     CPU();
 
@@ -583,9 +593,14 @@ struct CPU
     void runPreset(Preset preset);
 };
 
-CPU::CPU()
+CPU::CPU() :
+speed(2.1f),
+numCores(2),
+memory(512),
+model("U11X"),
+architecture("ARM")
 {
-    std::cout << "CPU UDT being constructed!" << std::endl; //1)
+    std::cout << "CPU UDT being constructed!" << std::endl; 
 }
 
 
@@ -610,15 +625,11 @@ void CPU::runPreset(Preset presetA)
 
 struct Drone
 {
-    Propeller propellerA;
-    Propeller propellerB;
-    Propeller propellerC;
-    Propeller propellerD;
+    Propeller propellerA, propellerB, propellerC, propellerD;
     Battery batteryA;
     GPS gpsA;
     CPU cpuA;
-    Preset presetA;
-    Preset presetLand;
+    Preset presetA, presetLand;
 
     Drone();
 
@@ -629,7 +640,7 @@ struct Drone
 
 Drone::Drone()
 {
-    std::cout << "Drone UDT being constructed!" << std::endl; //1)
+    std::cout << "Drone UDT being constructed!" << std::endl; 
 }
 
 void Drone::liftOff()
