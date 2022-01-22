@@ -179,8 +179,8 @@ void CoffeeShop::renameCustomer(Customer& customerA, std::string newName)
 struct InvoiceManager
 {
     int numInvoices = 234;
-    int numClients{32};
-    float outBalance{10345.24f};
+    int numClients { 32 };
+    float outBalance { 10345.24f };
     int numTemplates;
     std::string workType;
 
@@ -281,7 +281,7 @@ float InvoiceManager::checkBalance(Invoice invoiceA)
 struct ScooterRental
 {
     float rentalTime = 0.0f;
-    int distanceTraveled{0};
+    int distanceTraveled { 0 };
     float latitude, longitude, balance, voltage;
 
     ScooterRental();
@@ -387,26 +387,26 @@ bool PaintballGun::load()
 
 struct Propeller
 {
-    float voltage{11.1f};
-    float speed{12.0f};
+    float voltage;
+    float speed;
     float size;
     float weight;
     int efficiency;
 
-    Propeller();
+    Propeller() :
+    voltage(11.1f),
+    speed(12.0f),
+    size(5.0f),
+    weight(6.2f),
+    efficiency(70)
+    {
+        std::cout << "Propeller UDT being constructed!" << std::endl;
+    }
 
     float accelerate(float voltage);
     float maintain(float speed);
     float getSpeed();
 };
-
-Propeller::Propeller()
-{
-    std::cout << "Propeller UDT being constructed!" << std::endl;
-    size = 5.0f;
-    weight = 6.2f;
-    efficiency = 70;
-}
 
 float Propeller::accelerate(float newVoltage)
 {
@@ -488,11 +488,11 @@ void Battery::disconnect()
 
 struct GPS
 {
-    float latitude{34.052235f};
-    float longitude{-118.243683f};
-    float altitude{0.0f};
-    float time{1541393269.3742561f};
-    int signal{99};
+    float latitude { 34.052235f };
+    float longitude { -118.243683f };
+    float altitude { 0.0f };
+    float time { 1541393269.3742561f };
+    int signal { 99 };
 
     GPS();
 
