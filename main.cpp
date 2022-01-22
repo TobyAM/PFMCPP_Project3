@@ -393,20 +393,22 @@ struct Propeller
     float weight;
     int efficiency;
 
-    Propeller() :
-    voltage(11.1f),
-    speed(12.0f),
-    size(5.0f),
-    weight(6.2f),
-    efficiency(70)
-    {
-        std::cout << "Propeller UDT being constructed!" << std::endl;
-    }
+    Propeller();
 
     float accelerate(float voltage);
     float maintain(float speed);
     float getSpeed();
 };
+
+Propeller::Propeller() :
+voltage(11.1f),
+speed(12.0f),
+size(5.0f),
+weight(6.2f),
+efficiency(70)
+{
+    std::cout << "Propeller UDT being constructed!" << std::endl;
+}
 
 float Propeller::accelerate(float newVoltage)
 {
