@@ -533,7 +533,7 @@ struct Preset
     void renamePreset(std::string newName);
 };
 
-Preset::Preset() : name("barrel roll"), type("maneuver"), number(1), size(2), author("Toby")
+Preset::Preset() : name("barrel roll"), type("maneuver"), author("Toby"), number(1), size(2)
 {
     std::cout << "Preset UDT being constructed!" << std::endl;
 }
