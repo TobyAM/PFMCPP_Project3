@@ -178,9 +178,9 @@ void CoffeeShop::renameCustomer(Customer& customerA, std::string newName)
 
 struct InvoiceManager
 {
-    int numInvoices = 234;
-    int numClients { 32 };
-    float outBalance { 10345.24f };
+    int numInvoices;
+    int numClients;
+    float outBalance;
     int numTemplates;
     std::string workType;
 
@@ -209,18 +209,14 @@ struct InvoiceManager
     float checkBalance(Invoice invoice);
 };
 
-InvoiceManager::InvoiceManager() : numTemplates(4), workType("mastering")
+InvoiceManager::InvoiceManager() : numInvoices(234), numClients(32), outBalance(10345.24f), numTemplates(4), workType("mastering")
 {
     std::cout << "InvoiceManager::InvoiceManager UDT being constructed!" << std::endl; 
 }
 
-InvoiceManager::Invoice::Invoice()
+InvoiceManager::Invoice::Invoice() : workType("post"), workTime(0.0f), totalBalance(0.0f), overdue(false)
 {
     std::cout << "InvoiceManager::Invoice::Invoice UDT being constructed!" << std::endl; 
-    workType = "post";
-    workTime = 0.0f;
-    totalBalance = 0.0f;
-    overdue = false;
     std::cout << "workType: " << workType << std::endl;
     std::cout << "workTime: " << workTime << std::endl;
     std::cout << "totalBalance: " << totalBalance << std::endl;
@@ -537,14 +533,9 @@ struct Preset
     void renamePreset(std::string newName);
 };
 
-Preset::Preset()
+Preset::Preset() : name("barrel roll"), type("maneuver"), number(1), size(2), author("Toby")
 {
     std::cout << "Preset UDT being constructed!" << std::endl;
-    name = "barrel roll";
-    type = "maneuver";
-    number = 1;
-    size = 2;
-    author = "Toby";
 }
 
 bool Preset::savePreset(std::string newName, std::string newType, std::string newAuthor)
