@@ -188,7 +188,7 @@ bool CoffeeShop::brewCoffee(Coffee coffeeType, int size, std::string brewType, b
 
 bool CoffeeShop::grindCoffee(Coffee coffeeType, int coarseness, Customer customerA)
 {
-    for( int i = coffeeType.coarseness; i < coarseness; i++)
+    for( int i = coffeeType.coarseness; i < coarseness; ++i)
     {
         std::cout << "... grinding coffee to coarseness " << i << std::endl;
     }
@@ -213,7 +213,7 @@ void CoffeeShop::renameCustomer(Customer& customerA, std::string newName)
 void CoffeeShop::pourCoffee(Coffee coffee, int size)
 {
     std::cout << "Pouring coffee...\n";
-    for( int i = 1; i < size; i++)
+    for( int i = 1; i < size; ++i)
     {
         if( i == size)
         {
@@ -384,12 +384,12 @@ float ScooterRental::lock()
 void ScooterRental::cruiseControl(int targetSpeed)
 {
     std::cout << "Engaging cruise control at speed " << targetSpeed << std::endl;
-    for( ; speed < targetSpeed; speed++)
+    for( ; speed < targetSpeed; ++speed)
     {
         std::cout << "Current speed: " << speed << ".\n";
     }
 
-    for( ; speed > targetSpeed; speed--)
+    for( ; speed > targetSpeed; --speed)
     {
         std::cout << "Current speed: " << speed << ".\n";
     }
@@ -623,14 +623,14 @@ float GPS::getTime(float targetLatitude, float targetLongitude)
 int GPS::getSignal()
 {
     std::cout << "Signal strength is " << signal << ":\n" << "______\n";
-    for( int i = 0; i < signal / 20; i++)
+    for( int i = 0; i < signal / 20; --i)
     {
-        for( int n = 0; n < 4 - i; n++)
+        for( int n = 0; n < 4 - i; ++n)
         {
             std::cout << " ";
         }
 
-        for( int n = i; n > -1; n--)
+        for( int n = i; n > -1; --n)
         {
             std::cout << "|";
         }
@@ -704,7 +704,7 @@ void Preset::generateSuffix()
     name += " ";
     // srand (time(nullptr)); commented out for warning
     std::cout << "Generating suffix: ";
-    for( int i = 0; i < 9; i++)
+    for( int i = 0; i < 9; --i)
     {
         r = std::rand() % 26;
         c = 'a' + char(r);
@@ -769,7 +769,7 @@ void CPU::runPreset(Preset presetA)
 void CPU::thermalThrottle(int maxTemp)
 {
     std::cout << "Thermal limit set to: " << maxTemp << std::endl;
-    for( ; temp > maxTemp; temp--)
+    for( ; temp > maxTemp; --temp)
     {
         speed = temp * 0.02f;
         std::cout << "Package too hot at " << temp << " degrees. Cooling down... Speed now " << speed << std::endl;
@@ -849,13 +849,13 @@ void Drone::hover(float targetAltitude)
 {
     std::cout << "Engaging fixed hover at " << targetAltitude << "ft.\n";
 
-    for( ; gpsA.altitude < targetAltitude; gpsA.altitude++ )
+    for( ; gpsA.altitude < targetAltitude; ++gpsA.altitude )
     {
         maneuver(3.0);
         std::cout << "Altitude: " << gpsA.altitude << std::endl; 
     }
 
-    for( ; gpsA.altitude > targetAltitude; gpsA.altitude-- )
+    for( ; gpsA.altitude > targetAltitude; --gpsA.altitude )
     {
         maneuver(0.0);
         std::cout << "Altitude: " << gpsA.altitude << std::endl; 
