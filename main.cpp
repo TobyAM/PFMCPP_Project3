@@ -623,7 +623,7 @@ float GPS::getTime(float targetLatitude, float targetLongitude)
 int GPS::getSignal()
 {
     std::cout << "Signal strength is " << signal << ":\n" << "______\n";
-    for( int i = 0; i < signal / 20; --i)
+    for( int i = 0; i < signal / 20; ++i)
     {
         for( int n = 0; n < 4 - i; ++n)
         {
@@ -704,7 +704,7 @@ void Preset::generateSuffix()
     name += " ";
     // srand (time(nullptr)); commented out for warning
     std::cout << "Generating suffix: ";
-    for( int i = 0; i < 9; --i)
+    for( int i = 0; i < 9; ++i)
     {
         r = std::rand() % 26;
         c = 'a' + char(r);
