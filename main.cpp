@@ -290,7 +290,7 @@ void InvoiceManager::Invoice::markAsPaid(Invoice& invoiceA)
 void InvoiceManager::Invoice::duplicate(Invoice& invoiceA)
 {
     Invoice invoiceB = invoiceA;    // I would not really do this
-    invoiceB.invoiceNumber += 1;
+    ++invoiceB.invoiceNumber;
     std::cout << "Duplicated invoice " << invoiceA.invoiceNumber << " as " << invoiceB.invoiceNumber << std::endl;
 }
 
@@ -298,7 +298,7 @@ InvoiceManager::Invoice InvoiceManager::createInvoice(std::string name, float da
 {
     Invoice newInvoice;
     newInvoice.clientName = name;
-    numInvoices += 1;
+    ++numInvoices;
     newInvoice.invoiceNumber = numInvoices;
     newInvoice.dueDate = date;
     newInvoice.workType = type;
@@ -332,7 +332,7 @@ void InvoiceManager::printHolidyCards()
     int i = 0;
     while( i < numClients )
     {
-        i += 1;
+        ++i;
         std::cout << "Printing card # " << i << std::endl;
     }
 
@@ -457,7 +457,7 @@ bool PaintballGun::load()
         if( chamber == 0)
         {
             chamber = 1;
-            hopper -= 1;
+            --hopper;
             std::cout << "The chamber was successfully loaded!" << std::endl;
             return true;
         }
@@ -519,13 +519,13 @@ int Propeller::maintain(int targetSpeed)
     std::cout << "Engaging cruise control.\n";
     while( speed < targetSpeed)
     {
-        speed += 1;
+        ++speed;
         std::cout << "Speed is " << speed << ".\n";
     }
 
     while( speed > targetSpeed)
     {
-        speed -= 1;
+        --speed;
         std::cout << "Speed is " << speed << ".\n";
     }
     
@@ -573,7 +573,7 @@ float Battery::discharge()
     std::cout << "Battery discharging....\n";
     while( voltage - 1.0f > 0.0f)
     {
-        voltage -= 1.0f;
+        --voltage;
         std::cout << "Voltage is " << voltage << ".\n";
     }
     
@@ -814,7 +814,7 @@ void Drone::liftOff()
         propellerC.accelerate(3.0f);
         propellerD.accelerate(3.0f);
 
-        gpsA.altitude += 1.0f;
+        ++gpsA.altitude;
 
         std::cout << "Lifting off!\n";
     }
@@ -837,7 +837,7 @@ bool Drone::land()
     {
         // check the lidar!
         std::cout << "Landing. Clear landing area!\n";
-        gpsA.altitude -= 1.0f;
+        --gpsA.altitude;
         return true;
     }
     
