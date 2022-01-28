@@ -73,6 +73,7 @@ struct CoffeeShop
     int numBaristas = 2;
     int numCoffeeMachines { 4 };
     int numRegisters;
+    int numCustomers { 0 } ;
     CoffeeShop() : numRegisters(2)
     {
         std::cout << "CoffeeShop UDT being constructed!" << std::endl;  
@@ -84,6 +85,7 @@ struct CoffeeShop
     {
         std::string type = "columbian";
         std::string roast { "dark" };
+        int coarseness = 1;
 
         Coffee();
     };
@@ -104,8 +106,9 @@ struct CoffeeShop
     };
 
     bool brewCoffee(Coffee coffeeType, int size, std::string brewType, bool cream, bool sugar, std::string customerName);
-    bool grindCoffee(Coffee coffeeType, int courseness, Customer customerA);
+    bool grindCoffee(Coffee coffeeType, int coarseness, Customer customerA);
     void renameCustomer(Customer& customerA, std::string newName); // changed to a reference after some googling because it wasn't working right
+    void pourCoffee(Coffee coffee, int size);
 
     Coffee standardBrew;
 
@@ -183,9 +186,13 @@ bool CoffeeShop::brewCoffee(Coffee coffeeType, int size, std::string brewType, b
     return true;
 }
 
-bool CoffeeShop::grindCoffee(Coffee coffeeType, int courseness, Customer customerA)
+bool CoffeeShop::grindCoffee(Coffee coffeeType, int coarseness, Customer customerA)
 {
-    std::cout << "Ground coffee to courseness " << courseness << ", " << coffeeType.type << ", " << coffeeType.roast << " for: " << customerA.name << "\n";
+    for( int i = coffeeType.coarseness; i < coarseness; ++i)
+    {
+        std::cout << "... grinding coffee to coarseness " << i << std::endl;
+    }
+    std::cout << "Ground coffee to coarseness " << coarseness << ", " << coffeeType.type << ", " << coffeeType.roast << " for: " << customerA.name << "\n";
     return true;
 }
 
@@ -201,6 +208,23 @@ void CoffeeShop::renameCustomer(Customer& customerA, std::string newName)
     {
         std::cout << "New name too short.\n";
     }
+}
+
+void CoffeeShop::pourCoffee(Coffee coffee, int size)
+{
+    std::cout << "Pouring coffee...\n";
+    for( int i = 1; i < size; ++i)
+    {
+        if( i == size)
+        {
+            std::cout << "FULL!\n";
+            return;
+        }
+
+        std::cout << "Volume at " << i << ", keep pouring... " << std::endl;
+    }
+
+    std::cout << "Size " << size << " " << coffee.roast << " " << coffee.type << " coffee poured.\n";
 }
 
 struct InvoiceManager
@@ -234,6 +258,7 @@ struct InvoiceManager
     Invoice createInvoice(std::string clientName, float dueDate, std::string workType = "post", float workTime = 0.0f);
     bool checkOverdue(Invoice invoice);
     float checkBalance(Invoice invoice);
+    void printHolidyCards();
 };
 
 InvoiceManager::InvoiceManager() : numInvoices(234), numClients(32), outBalance(10345.24f), numTemplates(4), workType("mastering")
@@ -265,7 +290,7 @@ void InvoiceManager::Invoice::markAsPaid(Invoice& invoiceA)
 void InvoiceManager::Invoice::duplicate(Invoice& invoiceA)
 {
     Invoice invoiceB = invoiceA;    // I would not really do this
-    invoiceB.invoiceNumber += 1;
+    ++invoiceB.invoiceNumber;
     std::cout << "Duplicated invoice " << invoiceA.invoiceNumber << " as " << invoiceB.invoiceNumber << std::endl;
 }
 
@@ -273,7 +298,7 @@ InvoiceManager::Invoice InvoiceManager::createInvoice(std::string name, float da
 {
     Invoice newInvoice;
     newInvoice.clientName = name;
-    numInvoices += 1;
+    ++numInvoices;
     newInvoice.invoiceNumber = numInvoices;
     newInvoice.dueDate = date;
     newInvoice.workType = type;
@@ -301,10 +326,22 @@ float InvoiceManager::checkBalance(Invoice invoiceA)
     return invoiceA.totalBalance;
 }
 
+void InvoiceManager::printHolidyCards()
+{
+    std::cout << "Printing holiday cards for all " << numClients << " clients...\n";
+    int i = 0;
+    while( i < numClients )
+    {
+        ++i;
+        std::cout << "Printing card # " << i << std::endl;
+    }
+
+}
+
 struct ScooterRental
 {
     float rentalTime = 0.0f;
-    int distanceTraveled { 0 };
+    int distanceTraveled, speed { 0 };
     float latitude, longitude, balance, voltage;
 
     ScooterRental();
@@ -312,6 +349,7 @@ struct ScooterRental
     void accelerate(float throttle = 0.0f);
     void brake(float brake = 0.0f);
     float lock();
+    void cruiseControl(int targetSpeed);
 };
 
 ScooterRental::ScooterRental() :
@@ -343,6 +381,22 @@ float ScooterRental::lock()
     return balance;
 }
 
+void ScooterRental::cruiseControl(int targetSpeed)
+{
+    std::cout << "Engaging cruise control at speed " << targetSpeed << std::endl;
+    for( ; speed < targetSpeed; ++speed)
+    {
+        std::cout << "Current speed: " << speed << ".\n";
+    }
+
+    for( ; speed > targetSpeed; --speed)
+    {
+        std::cout << "Current speed: " << speed << ".\n";
+    }
+
+    if( speed == targetSpeed) std::cout << "Cruisin' at " << speed << "\n";
+}
+
 struct PaintballGun 
 {
     int pressure, hopper, chamber;
@@ -352,7 +406,8 @@ struct PaintballGun
     PaintballGun();
 
     bool shoot();
-    bool load(); 
+    bool load();
+    void automatic();
     void lock();
 };
 
@@ -397,21 +452,34 @@ void PaintballGun::lock()
 
 bool PaintballGun::load()
 {
-    if( chamber == 0)
+    if( hopper > 0)
     {
-        chamber = 1;
-        std::cout << "The chamber was successfully loaded!" << std::endl;
-        return true;
+        if( chamber == 0)
+        {
+            chamber = 1;
+            --hopper;
+            std::cout << "The chamber was successfully loaded!" << std::endl;
+            return true;
+        }
+
+        std::cout << "The chamber was already loaded!" << std::endl;    
+        return false;
     }
 
-    std::cout << "The chamber was already loaded!" << std::endl;    
+    std::cout << "The hopper is empty!\n";
     return false;
+}
+
+void PaintballGun::automatic()
+{
+    std::cout << "Lead finger engaged! Firing automatically:\n";
+    for( ; load(); shoot());
 }
 
 struct Propeller
 {
     float voltage;
-    float speed;
+    int speed;
     float size;
     float weight;
     int efficiency;
@@ -419,13 +487,13 @@ struct Propeller
     Propeller();
 
     float accelerate(float voltage);
-    float maintain(float speed);
+    int maintain(int speed ); // gonna revise this as it's perfect for while
     float getSpeed();
 };
 
 Propeller::Propeller() :
 voltage(11.1f),
-speed(12.0f),
+speed(12),
 size(5.0f),
 weight(6.2f),
 efficiency(70)
@@ -446,20 +514,24 @@ float Propeller::getSpeed()
     return speed;
 }
 
-float Propeller::maintain(float targetSpeed)
+int Propeller::maintain(int targetSpeed)
 {
-    if( speed < targetSpeed)
+    std::cout << "Engaging cruise control.\n";
+    while( speed < targetSpeed)
     {
-        voltage += 1;
-        std::cout << "Voltage is " << voltage << ".\n";
-    }
-    else if( speed > targetSpeed)
-    {
-        voltage -= 1;
-        std::cout << "Voltage is " << voltage << ".\n";
+        ++speed;
+        std::cout << "Speed is " << speed << ".\n";
     }
 
-    return voltage;
+    while( speed > targetSpeed)
+    {
+        --speed;
+        std::cout << "Speed is " << speed << ".\n";
+    }
+    
+    std::cout << "Speed " << speed << " maintained.\n";
+
+    return speed;
 }
 
 struct Battery
@@ -472,8 +544,8 @@ struct Battery
 
     Battery();
 
-    float charge();
-    float discharge();
+    float charge(float targetCharge); // going to mod this
+    float discharge(); 
     void disconnect();
 };
 
@@ -482,25 +554,30 @@ Battery::Battery() : voltage(3.7f), cells(1), capacity(750), crating(45), type("
     std::cout << "Battery UDT being constructed!" << std::endl; 
 }
 
-float Battery::charge()
+float Battery::charge(float targetCharge)
 {
-    if( voltage < 3.7f)
+    std::cout << "Battery charging to " << targetCharge << " v...\n";
+    while( voltage + 0.1f < targetCharge)
     {
-        voltage += 1.0f;
+        voltage += 0.1f;
         std::cout << "Voltage is " << voltage << ".\n";
     }
 
+    std::cout << "Battery charged to " << targetCharge << " v!\n";
     return voltage;
 }
 
 float Battery::discharge()
 {
-    if( voltage > 0.0f)
+    
+    std::cout << "Battery discharging....\n";
+    while( voltage - 1.0f > 0.0f)
     {
-        voltage -= 1;
+        --voltage;
+        std::cout << "Voltage is " << voltage << ".\n";
     }
-
-    std::cout << "Voltage is " << voltage << ".\n";
+    
+    std::cout << "Battery discharged!\n";
 
     return voltage;
 }
@@ -523,7 +600,7 @@ struct GPS
 
     void getLocation();
     float getTime(float latitude, float longitude);
-    int getSignal();
+    int getSignal(); // modifying this 
 };
 
 GPS::GPS()
@@ -545,6 +622,26 @@ float GPS::getTime(float targetLatitude, float targetLongitude)
 
 int GPS::getSignal()
 {
+    std::cout << "Signal strength is " << signal << ":\n" << "______\n";
+    for( int i = 0; i < signal / 20; ++i)
+    {
+        for( int n = 0; n < 4 - i; ++n)
+        {
+            std::cout << " ";
+        }
+
+        for( int n = i; n > -1; --n)
+        {
+            std::cout << "|";
+        }
+
+        std::cout << std::endl;
+
+        
+    }
+
+    std::cout << "------\n\n";
+
     return signal;
 }
 
@@ -558,6 +655,7 @@ struct Preset
     bool savePreset(std::string name, std::string type, std::string author);
     bool checkPreset(Preset presetA);
     void renamePreset(std::string newName);
+    void generateSuffix();
 };
 
 Preset::Preset() : name("barrel roll"), type("maneuver"), author("Toby"), number(1), size(2)
@@ -598,6 +696,27 @@ void Preset::renamePreset(std::string newName)
 
 }
 
+void Preset::generateSuffix()
+{
+    int r;
+    char c;
+    std::string oldName = name;
+    name += " ";
+    // srand (time(nullptr)); commented out for warning
+    std::cout << "Generating suffix: ";
+    for( int i = 0; i < 9; ++i)
+    {
+        r = std::rand() % 26;
+        c = 'a' + char(r);
+        name += c;
+        std::cout << c;
+    }
+
+    std::cout << std::endl;
+
+    std::cout << "Preset " << oldName << "'s name changed to: " << name << std::endl;
+}
+
 struct CPU
 {
     float speed;
@@ -605,12 +724,15 @@ struct CPU
     int memory;
     std::string model;
     std::string architecture;
+    int temp;
 
     CPU();
 
     float getSpeed();
     void balance();
     void runPreset(Preset preset);
+    void thermalThrottle(int maxTemp);
+
 };
 
 CPU::CPU() :
@@ -618,7 +740,8 @@ speed(2.1f),
 numCores(2),
 memory(512),
 model("U11X"),
-architecture("ARM")
+architecture("ARM"),
+temp(90)
 {
     std::cout << "CPU UDT being constructed!" << std::endl; 
 }
@@ -643,6 +766,19 @@ void CPU::runPreset(Preset presetA)
     // execute the preset
 }
 
+void CPU::thermalThrottle(int maxTemp)
+{
+    std::cout << "Thermal limit set to: " << maxTemp << std::endl;
+    for( ; temp > maxTemp; --temp)
+    {
+        speed = temp * 0.02f;
+        std::cout << "Package too hot at " << temp << " degrees. Cooling down... Speed now " << speed << std::endl;
+    }
+
+    std::cout << "Optimal temperature range reached at a speed of " << speed << std::endl;
+
+}
+
 struct Drone
 {
     Propeller propellerA, propellerB, propellerC, propellerD;
@@ -656,6 +792,7 @@ struct Drone
     void liftOff();
     void maneuver(float input); 
     bool land();
+    void hover(float targetAltitude);
 };
 
 Drone::Drone()
@@ -677,7 +814,7 @@ void Drone::liftOff()
         propellerC.accelerate(3.0f);
         propellerD.accelerate(3.0f);
 
-        gpsA.altitude += 1.0f;
+        ++gpsA.altitude;
 
         std::cout << "Lifting off!\n";
     }
@@ -700,12 +837,40 @@ bool Drone::land()
     {
         // check the lidar!
         std::cout << "Landing. Clear landing area!\n";
-        gpsA.altitude -= 1.0f;
+        --gpsA.altitude;
         return true;
     }
     
     std::cout << "Can't land. Already on ground!\n";
     return false;
+}
+
+void Drone::hover(float targetAltitude)
+{
+    std::cout << "Engaging fixed hover at " << targetAltitude << "ft.\n";
+
+    for( ; gpsA.altitude < targetAltitude; ++gpsA.altitude )
+    {
+        maneuver(3.0);
+        std::cout << "Altitude: " << gpsA.altitude << std::endl; 
+    }
+
+    for( ; gpsA.altitude > targetAltitude; --gpsA.altitude )
+    {
+        maneuver(0.0);
+        std::cout << "Altitude: " << gpsA.altitude << std::endl; 
+    }
+
+    if( targetAltitude + 0.1f > gpsA.altitude ) if( targetAltitude - 0.1f < gpsA.altitude )
+    {
+        std::cout << "Target altitude of " << targetAltitude << "ft. reached!\n";
+        propellerA.maintain(propellerA.speed);
+        propellerB.maintain(propellerB.speed);
+        propellerC.maintain(propellerC.speed);
+        propellerD.maintain(propellerD.speed);
+    }
+
+
 }
 
 /*
@@ -736,8 +901,9 @@ int main()
     CoffeeShop::Customer tobyMason;
 
     broBucks.renameCustomer(tobyMason, "Toby Mason");
-    broBucks.grindCoffee(broBucks.standardBrew, 2, tobyMason);
+    broBucks.grindCoffee(broBucks.standardBrew, 10, tobyMason);
     broBucks.brewCoffee(broBucks.standardBrew, 2, "cold brew", true, false,"Toby Mason");
+    broBucks.pourCoffee(broBucks.standardBrew, 3);
 
     std::cout << std::endl; // new UDT
 
@@ -761,6 +927,7 @@ int main()
     tobyInvoices.checkOverdue(testInvoice);
     testInvoice.totalBalance = 543.21f;
     tobyInvoices.checkBalance(testInvoice);
+    tobyInvoices.printHolidyCards();
     testInvoice.download();
     testInvoice.markAsPaid(testInvoice);
     std::cout << "Invoice " << testInvoice.invoiceNumber << " remaining balance: " << testInvoice.totalBalance << std::endl;
@@ -772,6 +939,8 @@ int main()
 
     tobysScooter.accelerate( 1.5f);
     tobysScooter.brake(100.0f);
+    tobysScooter.cruiseControl(10);
+    tobysScooter.cruiseControl(4);
     tobysScooter.lock();
 
     std::cout << std::endl; // new UDT
@@ -784,6 +953,8 @@ int main()
     tobysMarker.shoot();
     tobysMarker.lock();
     tobysMarker.shoot();
+    tobysMarker.hopper = 12;
+    tobysMarker.automatic();
     std::cout << std::endl;
 
     std::cout << std::endl; // new UDT
@@ -791,14 +962,14 @@ int main()
     Propeller propA;
     
     propA.accelerate(12.0f);
-    propA.maintain( 10.0f);
+    propA.maintain( 20);
     propA.getSpeed();
 
     std::cout << std::endl; // new UDT
 
     Battery cellA;
 
-    std::cout << "cellA is charging with voltage: " << cellA.charge() << std::endl;
+    cellA.charge(5.0f);
     cellA.discharge();
     cellA.disconnect();
 
@@ -808,7 +979,11 @@ int main()
 
     gpsNew.getLocation();
     gpsNew.getTime(19, 19);
-    std::cout << "Signal strength is " << gpsNew.getSignal() << std::endl;
+    gpsNew.getSignal();
+    gpsNew.signal = 44;
+    gpsNew.getSignal();
+    gpsNew.signal = 0;
+    gpsNew.getSignal();
 
     std::cout << std::endl; // new UDT
 
@@ -817,6 +992,7 @@ int main()
     tobysPreset.savePreset("barrel roll", "evasion", "TM");
     tobysPreset.checkPreset(tobysPreset);
     tobysPreset.renamePreset("Barrel Roll");
+    tobysPreset.generateSuffix();
 
     std::cout << std::endl; // new UDT
 
@@ -825,14 +1001,14 @@ int main()
     cpuA.getSpeed();
     cpuA.balance();
     cpuA.runPreset(tobysPreset);
+    cpuA.thermalThrottle(80);
 
     std::cout << std::endl; // new UDT
 
     Drone tobysDrone;
 
     tobysDrone.liftOff();
+    tobysDrone.hover(20.0f);
     tobysDrone.maneuver(5.0f);
     tobysDrone.land();
-
-    
 }
